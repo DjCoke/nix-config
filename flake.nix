@@ -6,7 +6,6 @@
       self,
       nixpkgs,
       home-manager,
-      stylix,
       ...
     }@inputs:
     let
@@ -80,7 +79,6 @@
         ghost = lib.nixosSystem {
           inherit specialArgs;
           modules = [
-            stylix.nixosModules.stylix
             home-manager.nixosModules.home-manager
             { home-manager.extraSpecialArgs = specialArgs; }
             ./hosts/ghost
@@ -108,7 +106,6 @@
         gusto = lib.nixosSystem {
           inherit specialArgs;
           modules = [
-            stylix.nixosModules.stylix
             home-manager.nixosModules.home-manager
             { home-manager.extraSpecialArgs = specialArgs; }
             ./hosts/gusto

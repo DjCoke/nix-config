@@ -22,15 +22,15 @@ in
     (builtins.attrValues outputs.nixosModules)
   ];
 
-  #  home-manager.extraSpecialArgs = {
-  #    inherit
-  #      pkgs
-  #      pkgs-unstable
-  #      inputs
-  #      configLib
-  #      ;
-  #  };
-  #
+  home-manager.extraSpecialArgs = {
+    inherit
+      pkgs
+      pkgs-unstable
+      inputs
+      configLib
+      ;
+  };
+
   programs.nh = {
     enable = true;
     clean.enable = true;

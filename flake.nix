@@ -76,10 +76,10 @@
       nixosConfigurations = {
         # Main
         ghost = lib.nixosSystem {
-          inherit specialArgs;
+          #          inherit specialArgs;
           modules = [
-            home-manager.nixosModules.home-manager
-            { home-manager.extraSpecialArgs = specialArgs; }
+            #            home-manager.nixosModules.home-manager
+            #            { home-manager.extraSpecialArgs = specialArgs; }
             ./hosts/ghost
           ];
         };

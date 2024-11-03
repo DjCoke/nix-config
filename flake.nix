@@ -10,13 +10,15 @@
     }@inputs:
     let
       inherit (self) outputs;
+      inherit (nixpkgs) lib;
+
       forAllSystems = nixpkgs.lib.genAttrs [
         "x86_64-linux"
         #"aarch64-darwin"
       ];
-      inherit (nixpkgs) lib;
       configVars = import ./vars { inherit inputs lib; };
       configLib = import ./lib { inherit lib; };
+
       specialArgs = {
         inherit
           inputs
@@ -28,11 +30,8 @@
       };
     in
     {
-      # Custom modules to enable special functionality for nixos or home-manager oriented configs.
-      #nixosModules = { inherit (import ./modules/nixos); };
-      #homeManagerModules = { inherit (import ./modules/home-manager); };
       nixosModules = import ./modules/nixos;
-      homeManagerModules = import ./modules/home-manager;
+      #    homeManagerModules = import ./modules/home-manager;
 
       # Custom modifications/overrides to upstream packages.
       overlays = import ./overlays { inherit inputs outputs; };

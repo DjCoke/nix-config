@@ -4,6 +4,7 @@
   lib,
   inputs,
   outputs,
+  config,
   configLib,
   configVars,
   ...
@@ -18,6 +19,7 @@ in
   imports = lib.flatten [
     (configLib.scanPaths ./.)
     (configLib.relativeToRoot "hosts/common/users/${configVars.username}")
+    (configLib.relativeToRoot "modules/common")
     (configLib.relativeToRoot "modules/nixos")
     inputs.home-manager.nixosModules.home-manager
   ];
@@ -30,6 +32,8 @@ in
       configVars
       configLib
       ;
+    # Pass in shared options values
+    hostSpec = config.hostSpec;
   };
 
   programs.nh = {

@@ -36,6 +36,19 @@ in
     hostSpec = config.hostSpec;
   };
 
+  networking.hostName = config.hostSpec.hostName;
+
+  hostSpec = {
+    username = "ta";
+    handle = "emergentmind";
+    inherit (inputs.nix-secrets)
+      domain
+      email
+      userFullName
+      networking
+      ;
+  };
+
   programs.nh = {
     enable = true;
     clean.enable = true;

@@ -8,7 +8,7 @@
     common/optional/sops.nix
     common/optional/helper-scripts
 
-    common/optional/desktops
+    #    common/optional/desktops
   ];
 
   services.yubikey-touch-detector.enable = true;

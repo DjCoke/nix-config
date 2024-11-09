@@ -8,7 +8,7 @@
 {
   inputs,
   lib,
-  configVars,
+  config,
   configLib,
   ...
 }:
@@ -38,24 +38,27 @@
       #################### Host-specific Optional Configs ####################
       #    "hosts/common/optional/initrd-ssh.nix"
       "hosts/common/optional/yubikey.nix"
-      "hosts/common/optional/services/clamav.nix" # depends on optional/msmtp.nix
-      "hosts/common/optional/msmtp.nix" # required for emailing clamav alerts
       "hosts/common/optional/services/openssh.nix"
 
       # Desktop
-      "hosts/common/optional/services/greetd.nix" # display manager
-      "hosts/common/optional/hyprland.nix" # window manager
+      #"hosts/common/optional/services/greetd.nix" # display manager
+      #"hosts/common/optional/hyprland.nix" # window manager
     ])
   ];
 
-  # set custom autologin options. see greetd.nix for details
-  autoLogin.enable = true;
-  autoLogin.username = configVars.username;
+  # Host Specification
+  hostSpec = {
+    hostName = "grief";
+    useYubikey = lib.mkForce true;
+  };
 
-  services.gnome.gnome-keyring.enable = true;
+  # set custom autologin options. see greetd.nix for details
+  #  autoLogin.enable = true;
+  #  autoLogin.username = config.hostSpec.username;
+  #
+  #  services.gnome.gnome-keyring.enable = true;
 
   networking = {
-    hostName = "grief";
     networkmanager.enable = true;
     enableIPv6 = false;
   };
@@ -80,12 +83,6 @@
       "virtio_blk"
     ];
   };
-
-  # borg backup
-  #services.backup = {
-  #  enable = false;
-  #  borgBackupStartTime = "01:00:00";
-  #};
 
   # This is a fix to enable VSCode to successfully remote SSH on a client to a NixOS host
   # https://wiki.nixos.org/wiki/Visual_Studio_Code # Remote_SSH

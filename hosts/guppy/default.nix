@@ -8,7 +8,6 @@
 {
   inputs,
   lib,
-  configVars,
   configLib,
   ...
 }:
@@ -45,8 +44,13 @@
 
   services.gnome.gnome-keyring.enable = true;
 
-  networking = {
+  # Host Specification
+  hostSpec = {
     hostName = "guppy";
+    useYubikey = lib.mkForce true;
+  };
+
+  networking = {
     networkmanager.enable = true;
     enableIPv6 = false;
   };

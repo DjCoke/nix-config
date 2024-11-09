@@ -60,8 +60,15 @@
 
   ];
 
-  networking = {
+  # Host Specification
+  hostSpec = {
     hostName = "ghost";
+    useYubikey = lib.mkForce true;
+    isMinimal = lib.mkForce false;
+    scaling = lib.mkForce "1";
+  };
+
+  networking = {
     networkmanager.enable = true;
     enableIPv6 = false;
   };

@@ -23,7 +23,7 @@
     #TODO move gusto to disko
 
     #################### Misc Inputs ####################
-    inputs.stylix.nixosModules.stylix
+    #inputs.stylix.nixosModules.stylix
 
     (map configLib.relativeToRoot [
 
@@ -43,18 +43,22 @@
     ])
   ];
 
+  hostSpec = {
+    hostName = "gusto";
+  };
+
   # Enable some basic X server options
   services.xserver.enable = true;
   services.xserver.displayManager = {
     lightdm.enable = true;
   };
+
   services.displayManager = {
     autoLogin.enable = true;
     autoLogin.user = "media";
   };
 
   networking = {
-    hostName = "gusto";
     networkmanager.enable = true;
     enableIPv6 = false;
   };

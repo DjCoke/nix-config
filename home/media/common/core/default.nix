@@ -7,7 +7,12 @@
   ...
 }:
 {
-  imports = (configLib.scanPaths ./.) ++ (builtins.attrValues outputs.homeManagerModules);
+  imports = lib.flatten [
+    (configLib.scanPaths ./.)
+    (map configLib.relativeToRoot [
+      "modules/home-manager"
+    ])
+  ];
 
   home = {
     username = lib.mkDefault "media";

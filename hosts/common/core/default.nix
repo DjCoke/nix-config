@@ -27,6 +27,7 @@ in
       pkgs
       pkgs-unstable
       inputs
+      configVars
       configLib
       ;
   };

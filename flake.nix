@@ -31,7 +31,6 @@
     in
     {
       nixosModules = import ./modules/nixos;
-      #    homeManagerModules = import ./modules/home-manager;
 
       # Custom modifications/overrides to upstream packages.
       overlays = import ./overlays { inherit inputs outputs; };
@@ -76,10 +75,8 @@
       nixosConfigurations = {
         # Main
         ghost = lib.nixosSystem {
-          #          inherit specialArgs;
+          inherit specialArgs;
           modules = [
-            #            home-manager.nixosModules.home-manager
-            #            { home-manager.extraSpecialArgs = specialArgs; }
             ./hosts/ghost
           ];
         };

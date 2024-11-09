@@ -14,7 +14,7 @@ let
       false;
   hostName = config.networking.hostName;
   homeBase = if pkgs.stdenv.isLinux then "/home" else "/Users";
-  homeDirectory = "${homeBase}/${configVars.username}";
+  homeDirectory = "${config.hostSpec.home}";
   rootHome = if pkgs.stdenv.isLinux then config.users.users.root.home else "/var/root";
   excludes = lib.flatten [
     "**/.direnv"

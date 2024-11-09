@@ -10,10 +10,6 @@
 let
   secretsDirectory = builtins.toString inputs.nix-secrets;
   secretsFile = "${secretsDirectory}/secrets.yaml";
-
-  # FIXME:(configLib) Switch to a configLib function
-  homeDirectory =
-    if pkgs.stdenv.isLinux then "/home/${configVars.username}" else "/Users/${configVars.username}";
 in
 {
   imports = [ inputs.sops-nix.nixosModules.sops ];
@@ -42,13 +38,13 @@ in
         owner = config.users.users.${configVars.username}.name;
         inherit (config.users.users.${configVars.username}) group;
         # We need to ensure the entire directory structure is that of the user...
-        path = "${homeDirectory}/.config/sops/age/keys.txt";
+        path = "${config.hostSpec.home}/.config/sops/age/keys.txt";
       };
       # extract to default pam-u2f authfile location for passwordless sudo. see modules/common/yubikey
       "yubico/u2f_keys" = {
         owner = config.users.users.${configVars.username}.name;
         inherit (config.users.users.${configVars.username}) group;
-        path = "${homeDirectory}/.config/Yubico/u2f_keys";
+        path = "${config.hostSpec.home}/.config/Yubico/u2f_keys";
       };
 
       # extract password/username to /run/secrets-for-users/ so it can be used to create the user
@@ -69,12 +65,12 @@ in
   # FIXME:(sops) We might not need this depending on how https://github.com/Mic92/sops-nix/issues/381 is fixed
   system.activationScripts.sopsSetAgeKeyOwnership =
     let
-      ageFolder = "${homeDirectory}/.config/sops/age";
+      ageFolder = "${config.hostSpec.home}/.config/sops/age";
       user = config.users.users.${configVars.username}.name;
       group = config.users.users.${configVars.username}.group;
     in
     ''
       mkdir -p ${ageFolder} || true
-      chown -R ${user}:${group} ${homeDirectory}/.config
+      chown -R ${user}:${group} ${config.hostSpec.home}/.config
     '';
 }

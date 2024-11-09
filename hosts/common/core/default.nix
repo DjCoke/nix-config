@@ -10,15 +10,12 @@
   ...
 }:
 let
-
-  #FIXME:(configLib) switch this and other instances to configLib function
-  homeDirectory =
-    if pkgs.stdenv.isLinux then "/home/${configVars.username}" else "/Users/${configVars.username}";
+  homeDirectory = config.hostSpec.home;
 in
 {
   imports = lib.flatten [
     (configLib.scanPaths ./.)
-    (configLib.relativeToRoot "hosts/common/users/${configVars.username}")
+    (configLib.relativeToRoot "hosts/common/users/${config.hostSpec.username}")
     (configLib.relativeToRoot "modules/common")
     (configLib.relativeToRoot "modules/nixos")
     inputs.home-manager.nixosModules.home-manager

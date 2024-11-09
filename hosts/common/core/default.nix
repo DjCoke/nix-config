@@ -18,8 +18,8 @@ in
   imports = lib.flatten [
     (configLib.scanPaths ./.)
     (configLib.relativeToRoot "hosts/common/users/${configVars.username}")
+    (configLib.relativeToRoot "modules/nixos")
     inputs.home-manager.nixosModules.home-manager
-    (builtins.attrValues outputs.nixosModules)
   ];
 
   home-manager.extraSpecialArgs = {

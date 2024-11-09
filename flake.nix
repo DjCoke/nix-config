@@ -30,8 +30,6 @@
       };
     in
     {
-      nixosModules = import ./modules/nixos;
-
       # Custom modifications/overrides to upstream packages.
       overlays = import ./overlays { inherit inputs outputs; };
 
@@ -84,8 +82,6 @@
         grief = lib.nixosSystem {
           inherit specialArgs;
           modules = [
-            home-manager.nixosModules.home-manager
-            { home-manager.extraSpecialArgs = specialArgs; }
             ./hosts/grief
           ];
         };
@@ -93,8 +89,6 @@
         guppy = lib.nixosSystem {
           inherit specialArgs;
           modules = [
-            home-manager.nixosModules.home-manager
-            { home-manager.extraSpecialArgs = specialArgs; }
             ./hosts/guppy
           ];
         };
@@ -102,8 +96,6 @@
         gusto = lib.nixosSystem {
           inherit specialArgs;
           modules = [
-            home-manager.nixosModules.home-manager
-            { home-manager.extraSpecialArgs = specialArgs; }
             ./hosts/gusto
           ];
         };

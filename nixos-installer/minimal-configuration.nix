@@ -2,14 +2,14 @@
   lib,
   pkgs,
   configLib,
-  configVars,
+  config,
   ...
 }:
 let
-  sshPort = configVars.networking.ports.tcp.ssh;
+  sshPort = config.hostSpec.networking.ports.tcp.ssh;
 in
 {
-  imports = [ (configLib.relativeToRoot "hosts/common/users/${configVars.username}") ];
+  imports = [ (configLib.relativeToRoot "hosts/common/users/${config.hostSpec.username}") ];
 
   fileSystems."/boot".options = [ "umask=0077" ]; # Removes permissions and security warnings.
   boot.loader.efi.canTouchEfiVariables = true;

@@ -4,9 +4,9 @@
 # add any required users and passwords
 # `sudo smbpasswd -a <user>` and follow prompts
 
-{ pkgs, configVars, ... }:
+{ pkgs, config, ... }:
 let
-  localPrefix = configVars.networking.subnets.prefix.lan;
+  localPrefix = config.hostSpec.networking.subnets.prefix.lan;
 in
 {
   networking.firewall = {

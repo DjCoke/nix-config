@@ -2,10 +2,8 @@
   description = "Minimal NixOS configuration for bootstrapping systems";
 
   inputs = {
-    #nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
-    # Declarative partitioning and formatting
-    disko.url = "github:nix-community/disko";
+    disko.url = "github:nix-community/disko"; # Declarative partitioning and formatting
   };
 
   outputs =
@@ -13,15 +11,12 @@
     let
       inherit (self) outputs;
       inherit (nixpkgs) lib;
-      configVars = import ../vars { inherit inputs lib; };
       configLib = import ../lib { inherit lib; };
-      minimalConfigVars = lib.recursiveUpdate configVars { isMinimal = true; };
+
       minimalSpecialArgs = {
         inherit inputs outputs configLib;
-        configVars = minimalConfigVars;
       };
 
-      # FIXME:(installer) Specify arch eventually probably
       # This mkHost is way better: https://github.com/linyinfeng/dotfiles/blob/8785bdb188504cfda3daae9c3f70a6935e35c4df/flake/hosts.nix#L358
       newConfig =
         name: disk: withSwap: swapSize:
@@ -58,7 +53,7 @@
             (configLib.relativeToRoot "hosts/common/disks/ghost.nix")
             ./minimal-configuration.nix
             { networking.hostName = "ghost"; }
-            (configLib.relativeToRoot "hosts/ghost/hardware-configuration.nix")
+            (configLib.relativeToRoot "hosts/linux/ghost/hardware-configuration.nix")
           ];
         };
 

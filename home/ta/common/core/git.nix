@@ -3,14 +3,13 @@
   lib,
   config,
   configLib,
-  configVars,
   ...
 }:
 let
-  handle = configVars.handle;
-  publicGitEmail = configVars.gitHubEmail;
+  handle = config.hostSpec.handle;
+  publicGitEmail = config.hostSpec.email.gitHub;
   publicKey = "${config.home.homeDirectory}/.ssh/id_yubikey.pub";
-  username = configVars.username;
+  username = config.hostSpec.username;
 in
 {
   programs.git = {

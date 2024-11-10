@@ -1,4 +1,4 @@
-{ configVars, ... }:
+{ config, ... }:
 {
   imports = [
     #################### Required Configs ####################
@@ -22,8 +22,8 @@
   services.yubikey-touch-detector.notificationSound = true;
 
   home = {
-    username = configVars.username;
-    homeDirectory = "/home/${configVars.username}";
+    username = config.hostSpec.username;
+    homeDirectory = "/home/${config.hostSpec.username}";
   };
 
   # Configure monitors for the host here. This uses the nix-config/modules/home-manager/montiors.nix module which defaults to enabled.

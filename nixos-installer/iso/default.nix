@@ -1,15 +1,25 @@
 {
+  inputs,
   pkgs,
   lib,
-  configLib,
-  configVars,
+  config,
   ...
 }:
-let
-  sshPort = configVars.networking.ports.tcp.ssh;
-in
 {
-  imports = [ (configLib.relativeToRoot "hosts/common/users/${configVars.username}") ];
+  imports = lib.flatten [
+    "${inputs.nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
+    #"${inputs.nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-graphical-gnome.nix"
+    "${inputs.nixpkgs}/nixos/modules/installer/cd-dvd/channel.nix"
+    (map lib.custom.relativeToRoot [
+      "modules/common/host-spec.nix"
+    ])
+  ];
+
+  hostSpec = {
+    hostName = "iso";
+    isProduction = lib.mkForce false;
+    isMinimal = lib.mkForce true;
+  };
 
   # The default compression-level is (6) and takes too long on some machines (>30m). 3 takes <2m
   isoImage.squashfsCompression = "zstd -Xcompression-level 3";
@@ -30,7 +40,7 @@ in
   services = {
     qemuGuest.enable = true;
     openssh = {
-      ports = [ sshPort ];
+      ports = [ config.hostSpec.networking.ports.tcp.ssh ];
       settings.PermitRootLogin = lib.mkForce "yes";
     };
   };

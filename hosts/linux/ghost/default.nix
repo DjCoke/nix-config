@@ -8,7 +8,7 @@
 {
   inputs,
   lib,
-  configVars,
+  config,
   configLib,
   pkgs,
   ...
@@ -78,12 +78,12 @@
   services.backup = {
     enable = true;
     borgBackupStartTime = "02:00:00";
-    borgServer = "${configVars.networking.subnets.oops.ip}";
-    borgUser = "${configVars.username}";
-    borgPort = "${builtins.toString configVars.networking.subnets.oops.port}";
-    borgBackupPath = "/var/services/homes/${configVars.username}/backups";
-    borgNotifyFrom = "${configVars.email.notifier}";
-    borgNotifyTo = "${configVars.email.backup}";
+    borgServer = "${config.hostSpec.networking.subnets.oops.ip}";
+    borgUser = "${config.hostSpec.username}";
+    borgPort = "${builtins.toString config.hostSpec.networking.subnets.oops.port}";
+    borgBackupPath = "/var/services/homes/${config.hostSpec.username}/backups";
+    borgNotifyFrom = "${config.hostSpec.email.notifier}";
+    borgNotifyTo = "${config.hostSpec.email.backup}";
   };
 
   boot.loader = {
@@ -103,7 +103,7 @@
   # needed unlock LUKS on secondary drives
   # use partition UUID
   # https://wiki.nixos.org/wiki/Full_Disk_Encryption#Unlocking_secondary_drives
-  environment.etc.crypttab.text = lib.optionalString (!configVars.isMinimal) ''
+  environment.etc.crypttab.text = lib.optionalString (!config.hostSpec.isMinimal) ''
     cryptextra UUID=d90345b2-6673-4f8e-a5ef-dc764958ea14 /luks-secondary-unlock.key
     cryptvms UUID=ce5f47f8-d5df-4c96-b2a8-766384780a91 /luks-secondary-unlock.key
   '';

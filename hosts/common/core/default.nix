@@ -1,12 +1,11 @@
 {
-  pkgs,
-  pkgs-unstable,
-  lib,
   inputs,
   outputs,
   config,
+  lib,
+  pkgs,
+  pkgs-unstable,
   configLib,
-  configVars,
   ...
 }:
 let
@@ -26,7 +25,6 @@ in
       pkgs
       pkgs-unstable
       inputs
-      configVars
       configLib
       ;
     # Pass in shared options values

@@ -9,7 +9,7 @@
   ...
 }:
 let
-  # FIXME make use of configVars for media user
+  # FIXME make use of hostSpec for media user
   secretsSubPath = "passwords/media";
 in
 {

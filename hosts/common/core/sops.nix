@@ -4,7 +4,6 @@
   pkgs,
   inputs,
   config,
-  configVars,
   ...
 }:
 let
@@ -34,21 +33,21 @@ in
       # the age key.
       # These age keys are are unique for the user on each host and are generated on their own (i.e. they are not derived
       # from an ssh key).
-      "user_age_keys/${configVars.username}_${config.networking.hostName}" = {
-        owner = config.users.users.${configVars.username}.name;
-        inherit (config.users.users.${configVars.username}) group;
+      "user_age_keys/${config.hostSpec.username}_${config.networking.hostName}" = {
+        owner = config.users.users.${config.hostSpec.username}.name;
+        inherit (config.users.users.${config.hostSpec.username}) group;
         # We need to ensure the entire directory structure is that of the user...
         path = "${config.hostSpec.home}/.config/sops/age/keys.txt";
       };
       # extract to default pam-u2f authfile location for passwordless sudo. see modules/common/yubikey
       "yubico/u2f_keys" = {
-        owner = config.users.users.${configVars.username}.name;
-        inherit (config.users.users.${configVars.username}) group;
+        owner = config.users.users.${config.hostSpec.username}.name;
+        inherit (config.users.users.${config.hostSpec.username}) group;
         path = "${config.hostSpec.home}/.config/Yubico/u2f_keys";
       };
 
       # extract password/username to /run/secrets-for-users/ so it can be used to create the user
-      "passwords/${configVars.username}".neededForUsers = true;
+      "passwords/${config.hostSpec.username}".neededForUsers = true;
       "passwords/msmtp" = { };
       # borg password required by nix-config/modules/nixos/backup
       "passwords/borg" = {
@@ -66,8 +65,8 @@ in
   system.activationScripts.sopsSetAgeKeyOwnership =
     let
       ageFolder = "${config.hostSpec.home}/.config/sops/age";
-      user = config.users.users.${configVars.username}.name;
-      group = config.users.users.${configVars.username}.group;
+      user = config.users.users.${config.hostSpec.username}.name;
+      group = config.users.users.${config.hostSpec.username}.group;
     in
     ''
       mkdir -p ${ageFolder} || true

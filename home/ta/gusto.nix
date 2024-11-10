@@ -1,4 +1,4 @@
-{ configVars, ... }:
+{ config, ... }:
 {
   imports = [
     #################### Required Configs ####################
@@ -15,7 +15,7 @@
   services.yubikey-touch-detector.enable = true;
 
   home = {
-    username = configVars.username;
-    homeDirectory = "/home/${configVars.username}";
+    username = config.hostSpec.username;
+    homeDirectory = "/home/${config.hostSpec.username}";
   };
 }

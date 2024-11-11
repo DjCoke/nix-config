@@ -35,6 +35,9 @@
       #################### Required Configs ####################
       "hosts/common/core"
 
+      #################### Users to Create ####################
+      "hosts/common/users/ta"
+
       #################### Host-specific Optional Configs ####################
       #"hosts/common/optional/initrd-ssh.nix"
       "hosts/common/optional/services/openssh.nix"

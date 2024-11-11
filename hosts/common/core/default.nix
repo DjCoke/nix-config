@@ -14,7 +14,6 @@ in
 {
   imports = lib.flatten [
     (configLib.scanPaths ./.)
-    (configLib.relativeToRoot "hosts/common/users/${config.hostSpec.username}")
     (configLib.relativeToRoot "modules/common")
     (configLib.relativeToRoot "modules/nixos")
     inputs.home-manager.nixosModules.home-manager

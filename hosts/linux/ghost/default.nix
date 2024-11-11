@@ -33,6 +33,7 @@
     (map configLib.relativeToRoot [
       #################### Required Configs ####################
       "hosts/common/core"
+      "hosts/common/users/ta"
 
       #################### Host-specific Optional Configs ####################
       "hosts/common/optional/services/openssh.nix" # allow remote SSH access

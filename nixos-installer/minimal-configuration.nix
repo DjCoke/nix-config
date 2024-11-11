@@ -9,7 +9,17 @@ let
   sshPort = config.hostSpec.networking.ports.tcp.ssh;
 in
 {
-  imports = [ (configLib.relativeToRoot "hosts/common/users/ta") ];
+  imports = (
+    map configLib.relativeToRoot [
+      "hosts/common/users/ta"
+      "hosts/common/users/ta/nixos.nix"
+      "modules/common/host-spec.nix"
+    ]
+  );
+
+  hostSpec = {
+    isMinimal = lib.mkForce true;
+  };
 
   fileSystems."/boot".options = [ "umask=0077" ]; # Removes permissions and security warnings.
   boot.loader.efi.canTouchEfiVariables = true;

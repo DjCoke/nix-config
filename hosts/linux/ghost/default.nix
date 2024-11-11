@@ -15,59 +15,77 @@
 }:
 {
   imports = lib.flatten [
-    #################### Every Host Needs This ####################
+    #
+    # ========== Hardware ==========
+    #
     ./hardware-configuration.nix
-
-    #################### Hardware Modules ####################
     inputs.hardware.nixosModules.common-cpu-amd
     inputs.hardware.nixosModules.common-gpu-amd
     inputs.hardware.nixosModules.common-pc-ssd
 
-    #################### Disk Layout ####################
+    #
+    # ========== Disk Layout ==========
+    #
     inputs.disko.nixosModules.disko
     (configLib.relativeToRoot "hosts/common/disks/ghost.nix")
 
-    #################### Misc Inputs ####################
+    #
+    # ========== Misc Inputs ==========
+    #
     inputs.stylix.nixosModules.stylix
 
     (map configLib.relativeToRoot [
-      #################### Required Configs ####################
+      #
+      # ========== Required Configs ==========
+      #
       "hosts/common/core"
-      "hosts/common/users/ta"
+      "hosts/common/core/nixos.nix"
 
-      #################### Host-specific Optional Configs ####################
+      #
+      # ========== Optional Configs ==========
+      #
+      "hosts/common/optional/services/greetd.nix" # display manager
       "hosts/common/optional/services/openssh.nix" # allow remote SSH access
       "hosts/common/optional/services/printing.nix" # CUPS
       "hosts/common/optional/audio.nix" # pipewire and cli controls
       "hosts/common/optional/libvirt.nix" # vm tools
       "hosts/common/optional/gaming.nix" # steam, gamescope, gamemode, and related hardware
+      "hosts/common/optional/hyprland.nix" # window manager
       "hosts/common/optional/msmtp.nix" # for sending email notifications
       "hosts/common/optional/nvtop.nix" # GPU monitor (not available in home-manager)
       "hosts/common/optional/obsidian.nix" # wiki
       "hosts/common/optional/plymouth.nix" # fancy boot screen
       "hosts/common/optional/scanning.nix" # SANE and simple-scan
+      "hosts/common/optional/thunar.nix" # file manager
       "hosts/common/optional/vlc.nix" # media player
+      "hosts/common/optional/wayland.nix" # wayland components and pkgs not available in home-manager
       "hosts/common/optional/yubikey.nix" # yubikey related packages and configs
       "hosts/common/optional/zsa-keeb.nix" # Moonlander keeb flashing stuff
 
-      #################### Desktop ####################
-      "hosts/common/optional/services/greetd.nix" # display manager
-      "hosts/common/optional/hyprland.nix" # window manager
-      "hosts/common/optional/thunar.nix" # file manager
-      "hosts/common/optional/wayland.nix" # wayland components and pkgs not available in home-manager
     ])
-    #################### Ghost specific####################
+    #
+    # ========== Ghost Specific ==========
+    #
     ./samba.nix
 
   ];
 
-  # Host Specification
+  #
+  # ========== Host Specification ==========
+  #
+
   hostSpec = {
     hostName = "ghost";
     useYubikey = lib.mkForce true;
     isMinimal = lib.mkForce false;
     scaling = lib.mkForce "1";
   };
+
+  # set custom autologin options. see greetd.nix for details
+  #  autoLogin.enable = true;
+  #  autoLogin.username = config.hostSpec.username;
+  #
+  #  services.gnome.gnome-keyring.enable = true;
 
   networking = {
     networkmanager.enable = true;
@@ -101,7 +119,7 @@
     systemd.enable = true;
   };
 
-  # needed unlock LUKS on secondary drives
+  # needed to unlock LUKS on secondary drives
   # use partition UUID
   # https://wiki.nixos.org/wiki/Full_Disk_Encryption#Unlocking_secondary_drives
   environment.etc.crypttab.text = lib.optionalString (!config.hostSpec.isMinimal) ''

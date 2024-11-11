@@ -32,8 +32,10 @@
               };
             }
             ./minimal-configuration.nix
+            (configLib.relativeToRoot "hosts/common/optional/minimal.nix")
+            (configLib.relativeToRoot "hosts/linux/${name}/hardware-configuration.nix")
+
             { networking.hostName = name; }
-            (configLib.relativeToRoot "hosts/${name}/hardware-configuration.nix")
           ];
         });
     in

@@ -1,4 +1,4 @@
-{ config, ... }:
+{ ... }:
 {
   imports = [
     #################### Required Configs ####################
@@ -20,11 +20,6 @@
 
   services.yubikey-touch-detector.enable = true;
   services.yubikey-touch-detector.notificationSound = true;
-
-  home = {
-    username = config.hostSpec.username;
-    homeDirectory = "/home/${config.hostSpec.username}";
-  };
 
   # Configure monitors for the host here. This uses the nix-config/modules/home-manager/montiors.nix module which defaults to enabled.
   # Your nix-config/home-manger/<user>/common/optional/desktops/foo.nix WM config should parse and apply these values to it's monitor settings

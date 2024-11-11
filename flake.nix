@@ -60,7 +60,7 @@
       #
       # Building configurations is available through `just rebuild` or `nixos-rebuild --flake .#hostname`
       nixosConfigurations = mkHostConfigs (readHosts "linux") false;
-      darwinConfigurations = mkHostConfigs (readHosts "darwin") true;
+      #darwinConfigurations = mkHostConfigs (readHosts "darwin") true;
 
       #
       # ========= Custom Packages =========

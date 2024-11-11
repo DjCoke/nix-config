@@ -3,6 +3,7 @@
   lib,
   pkgs,
   outputs,
+  hostSpec,
   configLib,
   ...
 }:
@@ -10,15 +11,18 @@
   imports = lib.flatten [
     (configLib.scanPaths ./.)
     (map configLib.relativeToRoot [
+      "modules/common/host-spec.nix"
       "modules/home-manager"
     ])
   ];
 
+  inherit hostSpec;
+
   services.ssh-agent.enable = true;
 
   home = {
-    username = lib.mkDefault "ta";
-    homeDirectory = lib.mkDefault "/home/${config.home.username}";
+    username = lib.mkDefault config.hostSpec.username;
+    homeDirectory = lib.mkDefault config.hostSpec.home;
     stateVersion = lib.mkDefault "23.05";
     sessionPath = [
       "$HOME/.local/bin"

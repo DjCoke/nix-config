@@ -1,25 +1,75 @@
-{ lib, config, ... }:
+{
+  inputs,
+  lib,
+  configLib,
+  ...
+}:
 let
 in
 {
   imports = [
-    #################### Hardware Modules ####################
-    # inputs.hardware.nixosModules.common-cpu-amd
-    # inputs.hardware.nixosModules.common-cpu-intel
-    # inputs.hardware.nixosModules.common-gpu-nvidia
-    # inputs.hardware.nixosModules.common-gpu-intel
-    # inputs.hardware.nixosModules.common-pc-ssd
+    #
+    # ========== Hardware ==========
+    #
+    ./hardware-configuration.nix
+    #inputs.hardware.nixosModules.common-cpu-amd
+    #inputs.hardware.nixosModules.common-cpu-intel
+    #inputs.hardware.nixosModules.common-gpu-nvidia
+    #inputs.hardware.nixosModules.common-gpu-intel
+    #inputs.hardware.nixosModules.common-pc-ssd
 
-    #################### Required Configs ####################
-    ./common/core # required
+    #
+    # ========== Disk Layout ==========
+    #
+    #inputs.disko.nixosModules.disko
 
-    #################### Host-specific Optional Configs ####################
+    #
+    # ========== Misc Inputs ==========
+    #
+
+    (map configLib.relativeToRoot [
+      #
+      # ========== Required Configs ==========
+      #
+      "hosts/common/core"
+
+      #
+      # ========== Non-Primary Users to Create ==========
+      #
+
+      #
+      # ========== Optional Configs ==========
+      #
+    ])
   ];
 
-  home = {
-    username = config.hostSpec.username;
-    homeDirectory = "/home/${config.hostSpec.username}";
+  #
+  # ========== Host Specification ==========
+  #
+
+  hostSpec = {
+    hostName = "foo";
+    useYubikey = lib.mkForce true;
+    scaling = lib.mkForce "1";
   };
-  # Disable impermanence
-  #home.persistence = lib.mkForce { };
+
+  networking = {
+    networkmanager.enable = true;
+    enableIPv6 = false;
+  };
+
+  boot.loader = {
+    systemd-boot = {
+      enable = true;
+    };
+    efi.canTouchEfiVariables = true;
+    timeout = 3;
+  };
+
+  boot.initrd = {
+    systemd.enable = true;
+  };
+
+  # https://wiki.nixos.org/wiki/FAQ/When_do_I_update_stateVersion
+  system.stateVersion = "24.11";
 }

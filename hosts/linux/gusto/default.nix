@@ -13,28 +13,38 @@
 }:
 {
   imports = lib.flatten [
-    #################### Every Host Needs This ####################
+    #
+    # ========== Hardware ==========
+    #
     ./hardware-configuration.nix
-
-    #################### Hardware Modules ####################
     inputs.hardware.nixosModules.common-cpu-intel
     #inputs.hardware.nixosModules.common-gpu-intel #This is apparently already declared in `/nix/store/HASH-source/common/gpu/intel
 
+    #
+    # ========== Disk Layout ==========
+    #
     #TODO move gusto to disko
 
-    #################### Misc Inputs ####################
+    #
+    # ========== Misc Inputs ==========
+    #
     #inputs.stylix.nixosModules.stylix
 
     (map configLib.relativeToRoot [
-
-      #################### Required Configs ####################
+      #
+      # ========== Required Configs ==========
+      #
       "hosts/common/core"
+      "hosts/common/core/nixos.nix"
 
-      #################### Users to Create ####################
-      "hosts/common/users/ta"
+      #
+      # ========== Non-Primary Userrs to Create ==========
+      #
       "hosts/common/users/media"
 
-      #################### Host-specific Optional Configs ####################
+      #
+      # ========== Optional Configs ==========
+      #
       "hosts/common/optional/services/openssh.nix" # allow remote SSH access
       "hosts/common/optional/xfce.nix" # window manager until I get hyprland configured
       "hosts/common/optional/audio.nix" # pipewire and cli controls
@@ -42,6 +52,10 @@
       "hosts/common/optional/vlc.nix" # media player
     ])
   ];
+
+  #
+  # ========== Host Specification ==========
+  #
 
   hostSpec = {
     hostName = "gusto";

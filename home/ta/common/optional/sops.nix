@@ -9,8 +9,7 @@
 let
   secretsDirectory = builtins.toString inputs.nix-secrets;
   secretsFile = "${secretsDirectory}/secrets.yaml";
-  homeDirectory = config.hostSpec.home;
-
+  homeDirectory = config.home.homeDirectory;
 in
 {
   imports = [ inputs.sops-nix.homeManagerModules.sops ];

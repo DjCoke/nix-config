@@ -13,15 +13,17 @@
 }:
 {
   imports = lib.flatten [
-    #################### Every Host Needs This ####################
+    #
+    # ========== Hardware ==========
+    #
     ./hardware-configuration.nix
-
-    #################### Hardware Modules ####################
     inputs.hardware.nixosModules.common-cpu-amd
     inputs.hardware.nixosModules.common-gpu-amd
     inputs.hardware.nixosModules.common-pc-ssd
 
-    #################### Disk Layout ####################
+    #
+    # ========== Disk Layout ==========
+    #
     inputs.disko.nixosModules.disko
     (configLib.relativeToRoot "hosts/common/disks/standard-disk-config.nix")
     {
@@ -32,26 +34,31 @@
     }
 
     (map configLib.relativeToRoot [
-      #################### Required Configs ####################
+      #
+      # ========== Required Configs ==========
+      #
       "hosts/common/core"
+      "hosts/common/core/nixos.nix"
 
-      #################### Users to Create ####################
-      "hosts/common/users/ta"
-
-      #################### Host-specific Optional Configs ####################
+      #
+      # ========== Optional Configs ==========
+      #
       #"hosts/common/optional/initrd-ssh.nix"
       "hosts/common/optional/services/openssh.nix"
 
     ])
   ];
 
-  services.gnome.gnome-keyring.enable = true;
+  #
+  # ========== Host Specification ==========
+  #
 
-  # Host Specification
   hostSpec = {
     hostName = "guppy";
     useYubikey = lib.mkForce true;
   };
+
+  services.gnome.gnome-keyring.enable = true;
 
   networking = {
     networkmanager.enable = true;

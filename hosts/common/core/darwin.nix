@@ -9,6 +9,5 @@
     #inputs.nix-index-database.darwinModules.nix-index
     #inputs.nixvim-flake.darwinModules.nixvim
     (map lib.custom.relativeToRoot [ "modules/darwin" ])
-    ./sops.nix
   ];
 }

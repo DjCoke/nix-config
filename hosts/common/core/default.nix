@@ -7,16 +7,19 @@
   pkgs,
   pkgs-unstable,
   configLib,
+  isDarwinFlag,
   ...
 }:
 let
+
+  #FIXME: primaryUser* bindings should ideally be assigned values elsewhere but are needed for imports instead of using hostSpec to avoid infinite recursion
   primaryUser = "ta";
   primaryUserHandle = "emergentmind";
   homeDirectory = config.hostSpec.home;
 
   #FIXME: use conditional value
-  platform = "nixos";
-  #platform = if config.hostSpec.isDarwin then "darwin" else "nixos";
+  #platform = "nixos";
+  platform = if isDarwinFlag then "darwin" else "nixos";
 
 in
 {
@@ -33,7 +36,7 @@ in
   ];
 
   #
-  # ========== Core Host Specification ==========
+  # ========== Core Host Specifications ==========
   #
   hostSpec = {
     username = primaryUser;

@@ -31,10 +31,16 @@
           let
             func = if isDarwin then nix-darwin.lib.darwinSystem else lib.nixosSystem;
             systemFunc = lib.trace isDarwin func;
+            isDarwinFlag = isDarwin;
           in
           systemFunc {
             specialArgs = {
-              inherit inputs outputs configLib;
+              inherit
+                inputs
+                outputs
+                configLib
+                isDarwinFlag
+                ;
               lib = nixpkgs.lib // {
                 custom = import ./lib { inherit (nixpkgs) lib; };
               };

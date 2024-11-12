@@ -4,6 +4,14 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
     disko.url = "github:nix-community/disko"; # Declarative partitioning and formatting
+    #HACK: this is just here temporarily to get around checks
+    home-manager = {
+      #url = "github:nix-community/home-manager/release-24.05";
+      #inputs.nixpkgs.follows = "nixpkgs-stable";
+      url = "github:nix-community/home-manager";
+      #   inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+
   };
 
   outputs =

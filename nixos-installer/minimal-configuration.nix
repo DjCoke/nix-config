@@ -1,6 +1,7 @@
 {
   lib,
   pkgs,
+  inputs,
   configLib,
   config,
   ...
@@ -9,13 +10,15 @@ let
   sshPort = config.hostSpec.networking.ports.tcp.ssh;
 in
 {
-  imports = (
-    map configLib.relativeToRoot [
+  imports = lib.flatten [
+    #HACK: home-manager just here to get around some check problems
+    inputs.home-manager.nixosModules.home-manager
+    (map configLib.relativeToRoot [
       "hosts/common/users/ta"
       "hosts/common/users/ta/nixos.nix"
       "modules/common/host-spec.nix"
-    ]
-  );
+    ])
+  ];
 
   hostSpec = {
     isMinimal = lib.mkForce true;

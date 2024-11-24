@@ -4,7 +4,7 @@ set -eo pipefail
 # User variables
 target_hostname=""
 target_destination=""
-target_user="ta"
+target_user="erwin"
 ssh_key=""
 ssh_port="22"
 persist_dir=""
@@ -135,7 +135,7 @@ git_root=$(git rev-parse --show-toplevel)
 function nixos_anywhere() {
 	# Clear the keys, since they should be newly generated for the iso
 	green "Wiping known_hosts of $target_destination"
-	sed -i "/$target_hostname/d; /$target_destination/d" ~/.ssh/known_hosts
+	sed -i "" "/$target_hostname/d; /$target_destination/d" ~/.ssh/known_hosts
 
 	green "Installing NixOS on remote host $target_hostname at $target_destination"
 
@@ -167,9 +167,9 @@ function nixos_anywhere() {
 	green "[Optional] Set disk encryption passphrase:"
 	read -s luks_passphrase
 	if [ -n "$luks_passphrase" ]; then
-		$ssh_root_cmd "/bin/sh -c 'echo \'$luks_passphrase\' > /tmp/disko-password'"
+		$ssh_root_cmd "/bin/sh -c 'echo \"$luks_passphrase\" > /tmp/disko-password'"
 	else
-		$ssh_root_cmd "/bin/sh -c 'echo \'passphrase\' > /tmp/disko-password'"
+		$ssh_root_cmd "/bin/sh -c 'echo \"passphrase\" > /tmp/disko-password'"
 	fi
 	green "Generating hardware-config.nix for $target_hostname and adding it to the nix-config."
 	$ssh_root_cmd "nixos-generate-config --no-filesystems --root /mnt"
@@ -201,7 +201,7 @@ function update_sops_file() {
 	cd "${git_root}"/../nix-secrets
 
 	SOPS_FILE=".sops.yaml"
-	sed -i "{
+	sed -i "" "{
 	# Remove any * and & entries for this host
 	/[*&]$key_name/ d;
 	# Inject a new age: entry

@@ -31,6 +31,21 @@ let
     home-manager.users.${configVars.username} = import (
       configLib.relativeToRoot "home/${configVars.username}/${config.networking.hostName}.nix"
     );
+
+    home-manager.users.root = {
+      home.stateVersion = "23.05"; # Vermijd foutmeldingen
+      programs.zsh = {
+        enable = true;
+        plugins = [
+          {
+            name = "powerlevel10k-config";
+            src = configLib.relativeToRoot "home/${configVars.username}/common/core/zsh/p10k";
+            file = "p10k.zsh";
+          }
+        ];
+      };
+    };
+
   };
 
   # fullUserConfig = { };
@@ -72,20 +87,20 @@ in
           # root's ssh keys are mainly used for remote deployment.
           openssh.authorizedKeys.keys = config.users.users.${configVars.username}.openssh.authorizedKeys.keys;
         };
-        # Setup p10k.zsh for root
-        home-manager = if configVars.isMinimal then { } else {
-          home.stateVersion = "23.11"; # Avoid error (Changed by DjCoke: typo?)
-          programs.zsh = {
-            enable = true;
-            plugins = [
-              {
-                name = "powerlevel10k-config";
-                src = configLib.relativeToRoot "home/${configVars.username}/common/core/zsh/p10k";
-                file = "p10k.zsh";
-              }
-            ];
-          };
-        };
+        # # Setup p10k.zsh for root
+        # home-manager = if configVars.isMinimal then { } else {
+        #   home.stateVersion = "23.11"; # Avoid error (Changed by DjCoke: typo?)
+        #   programs.zsh = {
+        #     enable = true;
+        #     plugins = [
+        #       {
+        #         name = "powerlevel10k-config";
+        #         src = configLib.relativeToRoot "home/${configVars.username}/common/core/zsh/p10k";
+        #         file = "p10k.zsh";
+        #       }
+        #     ];
+        #   };
+        # };
 
         # create ssh sockets directory for controlpaths when homemanager not loaded (i.e. isminimal)
         systemd.tmpfiles.rules =

@@ -82,39 +82,39 @@ in
 
       #FIXME: Remove these hosts
 
-      "gooey" = lib.hm.dag.entryAfter [ "yubikey-hosts" ] {
-        host = "gooey";
-        hostname = "gooey.${configVars.domain}";
-        user = "pi";
-        forwardAgent = true;
-        identitiesOnly = true;
-        identityFile = lib.lists.forEach identityFiles (file: "${config.home.homeDirectory}/.ssh/${file}");
-      };
-      "oops" = lib.hm.dag.entryAfter [ "yubikey-hosts" ] {
-        host = "oops";
-        hostname = "${configVars.networking.subnets.oops.ip}";
-        user = "${configVars.username}";
-        port = configVars.networking.subnets.oops.port;
-        forwardAgent = true;
-        identitiesOnly = true;
-        identityFile = [
-          "~/.ssh/id_yubikey"
-          "~/.ssh/id_borg"
-        ];
-      };
-      "cakes" = {
-        host = "${configVars.networking.external.cakes.name}";
-        hostname = "${configVars.networking.external.cakes.ip}";
-        user = "${configVars.networking.external.cakes.username}";
-        localForwards = [
-          {
-            bind.address = "localhost";
-            bind.port = configVars.networking.external.cakes.localForwardsPort;
-            host.address = "localhost";
-            host.port = configVars.networking.external.cakes.localForwardsPort;
-          }
-        ];
-      };
+      # "gooey" = lib.hm.dag.entryAfter [ "yubikey-hosts" ] {
+      #   host = "gooey";
+      #   hostname = "gooey.${configVars.domain}";
+      #   user = "pi";
+      #   forwardAgent = true;
+      #   identitiesOnly = true;
+      #   identityFile = lib.lists.forEach identityFiles (file: "${config.home.homeDirectory}/.ssh/${file}");
+      # };
+      # "oops" = lib.hm.dag.entryAfter [ "yubikey-hosts" ] {
+      #   host = "oops";
+      #   hostname = "${configVars.networking.subnets.oops.ip}";
+      #   user = "${configVars.username}";
+      #   port = configVars.networking.subnets.oops.port;
+      #   forwardAgent = true;
+      #   identitiesOnly = true;
+      #   identityFile = [
+      #     "~/.ssh/id_yubikey"
+      #     "~/.ssh/id_borg"
+      #   ];
+      # };
+      # "cakes" = {
+      #   host = "${configVars.networking.external.cakes.name}";
+      #   hostname = "${configVars.networking.external.cakes.ip}";
+      #   user = "${configVars.networking.external.cakes.username}";
+      #   localForwards = [
+      #     {
+      #       bind.address = "localhost";
+      #       bind.port = configVars.networking.external.cakes.localForwardsPort;
+      #       host.address = "localhost";
+      #       host.port = configVars.networking.external.cakes.localForwardsPort;
+      #     }
+      #   ];
+      # };
     } // vanillaHostsConfig;
 
   };

@@ -72,19 +72,19 @@ in
           openssh.authorizedKeys.keys = config.users.users.${configVars.username}.openssh.authorizedKeys.keys;
         };
         # Setup p10k.zsh for root
-        home-manager.users.root = lib.optionalAttrs (!configVars.isMinimal) {
-          home.stateVersion = "23.11"; # Avoid error (Changed by DjCoke: typo?)
-          programs.zsh = {
-            enable = true;
-            plugins = [
-              {
-                name = "powerlevel10k-config";
-                src = configLib.relativeToRoot "home/${configVars.username}/common/core/zsh/p10k";
-                file = "p10k.zsh";
-              }
-            ];
-          };
-        };
+        # home-manager.users.root = lib.optionalAttrs (!configVars.isMinimal) {
+        #   home.stateVersion = "23.11"; # Avoid error (Changed by DjCoke: typo?)
+        #   programs.zsh = {
+        #     enable = true;
+        #     plugins = [
+        #       {
+        #         name = "powerlevel10k-config";
+        #         src = configLib.relativeToRoot "home/${configVars.username}/common/core/zsh/p10k";
+        #         file = "p10k.zsh";
+        #       }
+        #     ];
+        #   };
+        # };
 
         # create ssh sockets directory for controlpaths when homemanager not loaded (i.e. isminimal)
         systemd.tmpfiles.rules =

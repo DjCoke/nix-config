@@ -6,7 +6,6 @@
 , configLib
 , ...
 }:
-assert configVars.isMinimal == true; # Controleer of dit klopt in de context van een minimale configuratie
 let
   ifTheyExist = groups: builtins.filter (group: builtins.hasAttr group config.users.groups) groups;
   sopsHashedPasswordFile =
@@ -17,9 +16,12 @@ let
   # these are values we don't want to set if the environment is minimal. E.g. ISO or nixos-installer
   # isMinimal is true in the nixos-installer/flake.nix
 
-
+  # Debugging: Controleer de waarde van isMinimal
+  assert configVars.isMinimal != null; # Controleer of isMinimal gedefinieerd is
+  assert configVars.isMinimal == true || configVars.isMinimal == false;
 
   fullUserConfig = lib.optionalAttrs (!configVars.isMinimal) {
+
     users.users.${configVars.username} = {
       hashedPasswordFile = sopsHashedPasswordFile;
       packages = [ pkgs.home-manager ];

@@ -32,6 +32,7 @@ let
   #     configLib.relativeToRoot "home/${configVars.username}/${config.networking.hostName}.nix"
   #   );
   # };
+  fullUserConfig = lib.optionalAttrs;
 in
 {
   config =

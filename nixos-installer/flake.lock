@@ -18,6 +18,23 @@
         "type": "github"
       }
     },
+    "nix-secrets": {
+      "locked": {
+        "lastModified": 1732473928,
+        "narHash": "sha256-U2VpohZ6BtvLb0+A30+IRlKhhNiLmVkUG8qi+vNzKnw=",
+        "ref": "main",
+        "rev": "b727fabfbed6c71484d0a02c083c0c691b1db4a8",
+        "shallow": true,
+        "type": "git",
+        "url": "ssh://git@github.com/DjCoke/nix-secrets.git"
+      },
+      "original": {
+        "ref": "main",
+        "shallow": true,
+        "type": "git",
+        "url": "ssh://git@github.com/DjCoke/nix-secrets.git"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1715037484,
@@ -53,6 +70,7 @@
     "root": {
       "inputs": {
         "disko": "disko",
+        "nix-secrets": "nix-secrets",
         "nixpkgs": "nixpkgs_2"
       }
     }

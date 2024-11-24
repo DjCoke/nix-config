@@ -20,19 +20,20 @@ let
   # assert configVars.isMinimal != null; # Controleer of isMinimal gedefinieerd is
   # assert configVars.isMinimal == true || configVars.isMinimal == false;
 
-  # fullUserConfig = lib.optionalAttrs (!configVars.isMinimal) {
-  #
-  #   users.users.${configVars.username} = {
-  #     hashedPasswordFile = sopsHashedPasswordFile;
-  #     packages = [ pkgs.home-manager ];
-  #   };
-  #
-  #   # Import this user's personal/home configurations
-  #   home-manager.users.${configVars.username} = import (
-  #     configLib.relativeToRoot "home/${configVars.username}/${config.networking.hostName}.nix"
-  #   );
-  # };
-  fullUserConfig = { };
+  fullUserConfig = lib.optionalAttrs (!configVars.isMinimal) {
+
+    users.users.${configVars.username} = {
+      hashedPasswordFile = sopsHashedPasswordFile;
+      packages = [ pkgs.home-manager ];
+    };
+
+    # Import this user's personal/home configurations
+    home-manager.users.${configVars.username} = import (
+      configLib.relativeToRoot "home/${configVars.username}/${config.networking.hostName}.nix"
+    );
+  };
+
+  # fullUserConfig = { };
 in
 {
   config =

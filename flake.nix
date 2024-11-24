@@ -1,13 +1,12 @@
 {
-  description = "EmergentMind's Nix-Config";
+  description = "DjCoke's Nix-Config, from EmergentMind's Nix-Config";
 
   outputs =
-    {
-      self,
-      nixpkgs,
-      home-manager,
-      stylix,
-      ...
+    { self
+    , nixpkgs
+    , home-manager
+    , stylix
+    , ...
     }@inputs:
     let
       inherit (self) outputs;
@@ -76,6 +75,15 @@
       # Building configurations available through `just rebuild` or `nixos-rebuild --flake .#hostname`
 
       nixosConfigurations = {
+        # First cluster node k3s
+        k3s-01 = lib.nixosSystem {
+          inherit specialArgs;
+          modules = [
+            home-manager.nixosModules.home-manager
+            { home-manager.extraSpecialArgs = specialArgs; }
+            ./hosts/k3s-01
+          ];
+        };
         # Main
         ghost = lib.nixosSystem {
           inherit specialArgs;
@@ -160,7 +168,7 @@
     };
 
     # Theming
-    stylix.url = "github:danth/stylix/release-24.05";
+    stylix.url = "github:danth/stylix/release-24.05"; # checked if it was still necessary to have 24.05 (it is still the case on 24-11-2024)
     rose-pine-hyprcursor.url = "github:ndom91/rose-pine-hyprcursor";
 
     #################### Personal Repositories ####################
@@ -168,7 +176,7 @@
     # Private secrets repo.  See ./docs/secretsmgmt.md
     # Authenticate via ssh and use shallow clone
     nix-secrets = {
-      url = "git+ssh://git@gitlab.com/emergentmind/nix-secrets.git?ref=main&shallow=1";
+      url = "git+ssh://git@gitlab.com/DjCoke/nix-secrets.git?ref=main&shallow=1";
       inputs = { };
     };
   };

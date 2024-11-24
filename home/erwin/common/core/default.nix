@@ -16,13 +16,12 @@
     stateVersion = lib.mkDefault "24.11";
     sessionPath = [
       "$HOME/.local/bin"
-      "$HOME/scripts/talon_scripts"
     ];
     sessionVariables = {
       FLAKE = "$HOME/src/nix-config";
       SHELL = "zsh";
-      TERM = "kitty";
-      TERMINAL = "kitty";
+      TERM = "alacritty";
+      TERMINAL = "alacritty";
       VISUAL = "nvim";
       EDITOR = "nvim";
       MANPAGER = "batman"; # see ./cli/bat.nix
@@ -38,8 +37,8 @@
       enable = true;
       createDirectories = true;
       desktop = "${config.home.homeDirectory}/.desktop";
-      documents = "${config.home.homeDirectory}/doc";
-      download = "${config.home.homeDirectory}/downloads";
+      documents = "${config.home.homeDirectory}/Documents";
+      download = "${config.home.homeDirectory}/Downloads";
       music = "${config.home.homeDirectory}/media/audio";
       pictures = "${config.home.homeDirectory}/media/images";
       videos = "${config.home.homeDirectory}/media/video";

@@ -1,11 +1,12 @@
 {
   pkgs,
-  inputs,
-  config,
-  lib,
-  configVars,
-  configLib,
-  ...
+{ pkgs
+, inputs
+, config
+, lib
+, configVars
+, configLib
+, ...
 }:
 let
   ifTheyExist = groups: builtins.filter (group: builtins.hasAttr group config.users.groups) groups;
@@ -67,7 +68,7 @@ in
         };
         # Setup p10k.zsh for root
         home-manager.users.root = lib.optionalAttrs (!configVars.isMinimal) {
-          home.stateVersion = "23.05"; # Avoid error
+          home.stateVersion = "24.11"; # Avoid error
           programs.zsh = {
             enable = true;
             plugins = [

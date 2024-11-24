@@ -32,7 +32,7 @@
       #nixosModules = { inherit (import ./modules/nixos); };
       #homeManagerModules = { inherit (import ./modules/home-manager); };
       nixosModules = import ./modules/nixos;
-      # homeManagerModules = import ./modules/home-manager; I Don't use it...
+      homeManagerModules = import ./modules/home-manager;
 
       # Custom modifications/overrides to upstream packages.
       overlays = import ./overlays { inherit inputs outputs; };

@@ -73,7 +73,7 @@ in
           openssh.authorizedKeys.keys = config.users.users.${configVars.username}.openssh.authorizedKeys.keys;
         };
         # Setup p10k.zsh for root
-        home-manager.users.root = lib.optionalAttrs (!configVars.isMinimal) {
+        home-manager.users.root = if configVars.isMinimal then { } else {
           home.stateVersion = "23.11"; # Avoid error (Changed by DjCoke: typo?)
           programs.zsh = {
             enable = true;

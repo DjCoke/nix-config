@@ -1,11 +1,10 @@
-{
-  pkgs,
-  lib,
-  inputs,
-  outputs,
-  configLib,
-  configVars,
-  ...
+{ pkgs
+, lib
+, inputs
+, outputs
+, configLib
+, configVars
+, ...
 }:
 let
 
@@ -15,7 +14,7 @@ let
 in
 {
   imports = lib.flatten [
-    (configLib.scanPaths ./.)
+    (configLib.scanPaths ./.) # this load all modules in this directory ./hosts/common
     (configLib.relativeToRoot "hosts/common/users/${configVars.username}")
     inputs.home-manager.nixosModules.home-manager
     (builtins.attrValues outputs.nixosModules)

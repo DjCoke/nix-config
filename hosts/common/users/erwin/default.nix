@@ -32,7 +32,7 @@ let
   #     configLib.relativeToRoot "home/${configVars.username}/${config.networking.hostName}.nix"
   #   );
   # };
-  fullUserConfig = [ ];
+  fullUserConfig = { };
 in
 {
   config =

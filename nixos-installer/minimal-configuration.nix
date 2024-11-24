@@ -1,9 +1,8 @@
-{
-  lib,
-  pkgs,
-  configLib,
-  configVars,
-  ...
+{ lib
+, pkgs
+, configLib
+, configVars
+, ...
 }:
 let
   sshPort = configVars.networking.ports.tcp.ssh;
@@ -54,5 +53,5 @@ in
     ];
     warn-dirty = false;
   };
-  system.stateVersion = "23.11";
+  system.stateVersion = "24.11";
 }

@@ -7,10 +7,10 @@
     networking
     ;
 
-  username = "ta";
-  handle = "emergentmind";
-  gitHubEmail = "7410928+emergentmind@users.noreply.github.com";
-  gitLabEmail = "2889621-emergentmind@users.noreply.gitlab.com";
+  username = "erwin";
+  handle = "DjCoke";
+  gitHubEmail = "8378780+DjCoke@users.noreply.github.com";
+  gitLabEmail = "placeholder@users.noreply.gitlab.com"; # I do not have gitLab
   persistFolder = "/persist";
 
   # System-specific settings (FIXME: Likely make options)

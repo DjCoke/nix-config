@@ -84,42 +84,6 @@
             ./hosts/k3s-01
           ];
         };
-        # Main
-        ghost = lib.nixosSystem {
-          inherit specialArgs;
-          modules = [
-            home-manager.nixosModules.home-manager
-            { home-manager.extraSpecialArgs = specialArgs; }
-            ./hosts/ghost
-          ];
-        };
-        # Qemu VM dev lab
-        grief = lib.nixosSystem {
-          inherit specialArgs;
-          modules = [
-            home-manager.nixosModules.home-manager
-            { home-manager.extraSpecialArgs = specialArgs; }
-            ./hosts/grief
-          ];
-        };
-        # Qemu VM deployment test lab
-        guppy = lib.nixosSystem {
-          inherit specialArgs;
-          modules = [
-            home-manager.nixosModules.home-manager
-            { home-manager.extraSpecialArgs = specialArgs; }
-            ./hosts/guppy
-          ];
-        };
-        # Theatre - ASUS VivoPC VM40B-S081M
-        gusto = lib.nixosSystem {
-          inherit specialArgs;
-          modules = [
-            home-manager.nixosModules.home-manager
-            { home-manager.extraSpecialArgs = specialArgs; }
-            ./hosts/gusto
-          ];
-        };
       };
     };
 

@@ -66,7 +66,7 @@ in
         };
         # Setup p10k.zsh for root
         home-manager.users.root = lib.optionalAttrs (!configVars.isMinimal) {
-          home.stateVersion = "24.11"; # Avoid error (Changed by DjCoke: typo?)
+          home.stateVersion = "23.11"; # Avoid error (Changed by DjCoke: typo?)
           programs.zsh = {
             enable = true;
             plugins = [

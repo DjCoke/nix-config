@@ -1,11 +1,10 @@
 # hosts level sops. see home/[user]/common/optional/sops.nix for home/user level
 
-{
-  pkgs,
-  inputs,
-  config,
-  configVars,
-  ...
+{ pkgs
+, inputs
+, config
+, configVars
+, ...
 }:
 let
   secretsDirectory = builtins.toString inputs.nix-secrets;
@@ -43,12 +42,6 @@ in
         inherit (config.users.users.${configVars.username}) group;
         # We need to ensure the entire directory structure is that of the user...
         path = "${homeDirectory}/.config/sops/age/keys.txt";
-      };
-      # extract to default pam-u2f authfile location for passwordless sudo. see modules/common/yubikey
-      "yubico/u2f_keys" = {
-        owner = config.users.users.${configVars.username}.name;
-        inherit (config.users.users.${configVars.username}) group;
-        path = "${homeDirectory}/.config/Yubico/u2f_keys";
       };
 
       # extract password/username to /run/secrets-for-users/ so it can be used to create the user

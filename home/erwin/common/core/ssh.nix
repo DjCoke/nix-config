@@ -1,8 +1,9 @@
-{ config
-, configVars
-, configLib
-, lib
-, ...
+{
+  config,
+  configVars,
+  configLib,
+  lib,
+  ...
 }:
 let
   yubikeyHosts = [ ]; # I do not use yubikeys
@@ -27,6 +28,7 @@ let
     # "id_yubikey" I do not use yubikeys
     # This is an auto symlink to whatever yubikey is plugged in. See modules/common/yubikey
     "id_erwin" # fallback to id_manu if yubikeys are not present
+    "id_github"
   ];
 
   # Lots of hosts have the same default config, so don't duplicate
@@ -38,15 +40,13 @@ let
     "gusto"
   ];
   vanillaHostsConfig = lib.attrsets.mergeAttrsList (
-    lib.lists.map
-      (host: {
-        "${host}" = lib.hm.dag.entryAfter [ "yubikey-hosts" ] {
-          host = host;
-          hostname = "${host}.${configVars.domain}";
-          port = configVars.networking.ports.tcp.ssh;
-        };
-      })
-      vanillaHosts
+    lib.lists.map (host: {
+      "${host}" = lib.hm.dag.entryAfter [ "yubikey-hosts" ] {
+        host = host;
+        hostname = "${host}.${configVars.domain}";
+        port = configVars.networking.ports.tcp.ssh;
+      };
+    }) vanillaHosts
   );
 in
 {
@@ -65,19 +65,19 @@ in
 
     matchBlocks = {
       # Not all of this systems I have access to can use yubikey.
-      "yubikey-hosts" = lib.hm.dag.entryAfter [ "*" ] {
-        host = "${yubikeyHostsString}";
-        forwardAgent = true;
-        identitiesOnly = true;
-        identityFile = lib.lists.forEach identityFiles (file: "${config.home.homeDirectory}/.ssh/${file}");
-      };
+      # "yubikey-hosts" = lib.hm.dag.entryAfter [ "*" ] {
+      #  host = "${yubikeyHostsString}";
+      #  forwardAgent = true;
+      # identitiesOnly = true;
+      #  identityFile = lib.lists.forEach identityFiles (file: "${config.home.homeDirectory}/.ssh/${file}");
+      # };
 
       "git" = {
         host = "gitlab.com github.com";
         user = "git";
         forwardAgent = true;
         identitiesOnly = true;
-        identityFile = lib.lists.forEach identityFiles (file: "${config.home.homeDirectory}/.ssh/${file}");
+        identityFile = [ "~/.ssh/id_github" ];
       };
 
       #FIXME: Remove these hosts

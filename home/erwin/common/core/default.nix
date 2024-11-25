@@ -110,6 +110,7 @@
 
   programs = {
     home-manager.enable = true;
+    backupFileExtension = ".bak";
   };
 
   # Nicely reload system units when changing configs

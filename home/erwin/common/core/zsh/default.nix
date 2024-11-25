@@ -13,7 +13,7 @@
     history.share = true;
     loginExtra = ''
       #  wordt uitgevoerd bij het openen van elke nieuwe interactieve shell
-      ${pkgs.fastfetch}/bin/neofetch
+      ${pkgs.neofetch}/bin/neofetch
     '';
 
     plugins = [
@@ -107,8 +107,6 @@
       # Overrides those provided by OMZ libs, plugins, and themes.
       # For a full list of active aliases, run `alias`.
 
-
-
       #-------------Bat related------------
       cat = "bat";
       diff = "batdiff";
@@ -181,8 +179,6 @@
 
       ld = "lazydocker";
       lg = "lazygit";
-
-
 
     };
   };

@@ -72,7 +72,6 @@
       "ohci_pci"
       "ehci_pci"
       "virtio_pci"
-      "virtio_scsci"
       "ahci"
       "usbhid"
       "sr_mod"

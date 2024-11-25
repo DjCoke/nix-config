@@ -32,6 +32,11 @@ let
       configLib.relativeToRoot "home/${configVars.username}/${config.networking.hostName}.nix"
     );
 
+    home-manager.backupFileExtension = ".bak";
+
+
+
+
     home-manager.users.root = {
       home.stateVersion = "23.05"; # Vermijd foutmeldingen
       programs.zsh = {

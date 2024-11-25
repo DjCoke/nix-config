@@ -108,9 +108,6 @@
     };
   };
 
-  home-manager.backupFileExtension = ".bak";
-
-
   programs = {
     home-manager.enable = true;
   };

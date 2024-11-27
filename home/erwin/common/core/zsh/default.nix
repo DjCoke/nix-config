@@ -11,10 +11,6 @@
     autosuggestion.enable = true;
     history.size = 10000;
     history.share = true;
-    loginExtra = ''
-      #  wordt uitgevoerd bij het openen van elke nieuwe interactieve shell
-      ${pkgs.neofetch}/bin/neofetch
-    '';
 
     plugins = [
       {
@@ -42,12 +38,14 @@
     ];
 
     initExtraFirst = ''
-      # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-      # Initialization code that may require console input (password prompts, [y/n]
-      # confirmations, etc.) must go above this block; everything else may go below.
-      if [[ -r "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh" ]]; then
-        source "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh"
-      fi
+      #  wordt uitgevoerd bij het openen van elke nieuwe interactieve shell
+            ${pkgs.neofetch}/bin/neofetch
+            # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+            # Initialization code that may require console input (password prompts, [y/n]
+            # confirmations, etc.) must go above this block; everything else may go below.
+            if [[ -r "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh" ]]; then
+              source "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh"
+            fi
     '';
 
     initExtra = ''
@@ -120,7 +118,7 @@
       edu = "cd $HOME/src/edu";
       dfs = "cd $HOME/src/dotfiles";
       dfsw = "cd $HOME/src/dotfiles.wiki";
-      nfs = "cd $HOME/nix-config";
+      ncfg = "cd $HOME/nix-config";
 
       ls = "eza --icons always --git"; # default view
       ll = "eza -bhl --icons --git --group-directories-first"; # long list

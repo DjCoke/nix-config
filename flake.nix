@@ -2,11 +2,12 @@
   description = "DjCoke's Nix-Config, from EmergentMind's Nix-Config";
 
   outputs =
-    { self
-    , nixpkgs
-    , home-manager
-    , stylix
-    , ...
+    {
+      self,
+      nixpkgs,
+      home-manager,
+      stylix,
+      ...
     }@inputs:
     let
       inherit (self) outputs;
@@ -116,14 +117,6 @@
     sops-nix = {
       url = "github:mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    # vim4LMFQR!
-    nixvim = {
-      #url = "github:nix-community/nixvim/nixos-24.05";
-      #inputs.nixpkgs.follows = "nixpkgs";
-      url = "github:nix-community/nixvim";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
     pre-commit-hooks = {

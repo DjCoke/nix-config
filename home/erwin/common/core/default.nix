@@ -89,6 +89,10 @@
       kubectl # cli kubernetes controller
       lazygit # a handy git handling software
       lazydocker # a handy docker handling software
+      age # cli utility for age keys
+      cargo
+      sops # sops for our secrets
+      go
       ;
   };
 

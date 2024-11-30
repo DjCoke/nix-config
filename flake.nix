@@ -2,12 +2,11 @@
   description = "DjCoke's Nix-Config, from EmergentMind's Nix-Config";
 
   outputs =
-    {
-      self,
-      nixpkgs,
-      home-manager,
-      stylix,
-      ...
+    { self
+    , nixpkgs
+    , home-manager
+    , stylix
+    , ...
     }@inputs:
     let
       inherit (self) outputs;
@@ -18,7 +17,7 @@
       inherit (nixpkgs) lib;
       configVars = import ./vars { inherit inputs lib; };
       configLib = import ./lib { inherit lib; };
-      specialArgs = {
+      letSpecialArgs = {
         inherit
           inputs
           outputs
@@ -29,14 +28,14 @@
       };
       nodes = [
         "k3s-01"
-        "k3s-02"
-        "k3s-03"
+        # "k3s-02"
+        # "k3s-03"
       ];
     in
     {
       # Custom modules to enable special functionality for nixos or home-manager oriented configs.
       #nixosModules = { inherit (import ./modules/nixos); };
-      #homeManagerModules = { inherit (import ./modules/home-manager); };
+      # homeManagerModules = { inherit (import ./modules/home-manager); };
       nixosModules = import ./modules/nixos;
       homeManagerModules = import ./modules/home-manager;
 
@@ -80,17 +79,20 @@
       #
       # Building configurations available through `just rebuild` or `nixos-rebuild --flake .#hostname`
 
-      nixosConfigurations = {
-        # First cluster node k3s
-        k3s-01 = lib.nixosSystem {
-          inherit specialArgs;
-          modules = [
-            home-manager.nixosModules.home-manager
-            { home-manager.extraSpecialArgs = specialArgs; }
-            ./hosts/k3s-01
-          ];
-        };
-      };
+      nixosConfigurations = builtins.listToAttrs (map
+        (name: {
+          # First cluster node k3s
+          name = name;
+          value = lib.nixosSystem {
+            specialArgs = letSpecialArgs // { hostName = name; };
+            modules = [
+              home-manager.nixosModules.home-manager
+              { home-manager.extraSpecialArgs = letSpecialArgs // { hostName = name; }; }
+              ./hosts/${name}
+            ];
+          };
+        })
+        nodes);
     };
 
   inputs = {

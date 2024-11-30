@@ -27,6 +27,11 @@
           nixpkgs
           ;
       };
+      nodes = [
+        "k3s-01"
+        "k3s-02"
+        "k3s-03"
+      ];
     in
     {
       # Custom modules to enable special functionality for nixos or home-manager oriented configs.

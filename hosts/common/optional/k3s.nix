@@ -1,9 +1,9 @@
-{ pkgs, ... }:
+{ pkgs, lib, config, hostName, ... }:
 {
   services.k3s = {
     enable = true;
     role = "server";
-    tokenFile = /var/lib/rancher/k3s/server/token;
+    tokenFile = "/var/lib/rancher/k3s/server/token";
     extraFlags = toString (
       [
         "--write-kubeconfig-mode \"0644\""
@@ -13,20 +13,20 @@
         "--disable local-storage"
       ]
       ++ (
-        if meta.hostname == "homelab-0" then
+        if hostName == "k3s-01" then
           [ ]
         else
           [
-            "--server https://homelab-0:6443"
+            "--server https://k3s-01:6443"
           ]
       )
     );
-    clusterInit = (meta.hostname == "homelab-0");
+    clusterInit = (hostName == "k3s-01");
   };
 
   services.openiscsi = {
     enable = true;
-    name = "iqn.2016-04.com.open-iscsi:${meta.hostname}";
+    name = "iqn.2016-04.com.open-iscsi:${hostName}";
   };
 
   environment.systemPackages = builtins.attrValues {

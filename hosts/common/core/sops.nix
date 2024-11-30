@@ -55,6 +55,14 @@ in
         path = "/etc/borg/passphrase";
       };
 
+      "passwords/token_k3s" = {
+        owner = "root";
+        group = if pkgs.stdenv.isLinux then "root" else "wheel";
+        mode = "0600";
+        path = "/var/lib/rancher/k3s/server/token";
+      };
+
+
     };
   };
   # The containing folders are created as root and if this is the first ~/.config/ entry,

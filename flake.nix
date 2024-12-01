@@ -81,7 +81,7 @@
 
       nixosConfigurations = builtins.listToAttrs (map
         (name: {
-          # First cluster node k3s
+          # getting the hostnames from nodes, and setting the hostname dynamically
           name = name;
           value = lib.nixosSystem {
             specialArgs = letSpecialArgs // { hostName = name; };

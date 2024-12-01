@@ -11,14 +11,14 @@
         "--disable servicelb"
         "--disable traefik"
         "--disable local-storage"
-        "--flannel-iface=ens18"
+        #  "--flannel-iface=ens18"
       ]
       ++ (
         if hostName == "k3s-01" then
           [ ]
         else
           [
-            "--server https://192.168.1.145:6443"
+            "--server-ip 192.168.1.145"
           ]
       )
     );

@@ -33,11 +33,9 @@ let
 
   # Lots of hosts have the same default config, so don't duplicate
   vanillaHosts = [
-    "genoa"
-    "ghost"
-    "grief"
     "k3s-01"
-    "gusto"
+    "k3s-02"
+    "k3s-03"
   ];
   vanillaHostsConfig = lib.attrsets.mergeAttrsList (
     lib.lists.map (host: {

@@ -7,7 +7,7 @@
 }:
 {
   services.k3s = {
-    enable = true;
+    enable = false;
     role = "server";
     tokenFile = "/var/lib/rancher/k3s/server/token";
     extraFlags = toString (

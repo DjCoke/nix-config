@@ -54,8 +54,10 @@
         # grief = newConfig "grief" "/dev/vda" false "0";
         # guppy = newConfig "guppy" "/dev/vda" false "0";
         # gusto = newConfig "gusto" "/dev/sda" true "8";
-        k3s-01 = newConfig "k3s-01" "/dev/sda" true "8";
 
+        k3s-01 = newConfig "k3s-01" "/dev/sda" true "8";
+        k3s-02 = newConfig "k3s-01" "/dev/sda" true "8";
+        k3s-03 = newConfig "k3s-01" "/dev/sda" true "8";
         # ghost = nixpkgs.lib.nixosSystem {
         #   system = "x86_64-linux";
         #   specialArgs = minimalSpecialArgs;

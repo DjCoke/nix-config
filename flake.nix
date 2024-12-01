@@ -2,11 +2,12 @@
   description = "DjCoke's Nix-Config, from EmergentMind's Nix-Config";
 
   outputs =
-    { self
-    , nixpkgs
-    , home-manager
-    , stylix
-    , ...
+    {
+      self,
+      nixpkgs,
+      home-manager,
+      stylix,
+      ...
     }@inputs:
     let
       inherit (self) outputs;
@@ -28,8 +29,8 @@
       };
       nodes = [
         "k3s-01"
-        # "k3s-02"
-        # "k3s-03"
+        "k3s-02"
+        "k3s-03"
       ];
     in
     {
@@ -79,20 +80,26 @@
       #
       # Building configurations available through `just rebuild` or `nixos-rebuild --flake .#hostname`
 
-      nixosConfigurations = builtins.listToAttrs (map
-        (name: {
+      nixosConfigurations = builtins.listToAttrs (
+        map (name: {
           # getting the hostnames from nodes, and setting the hostname dynamically
           name = name;
           value = lib.nixosSystem {
-            specialArgs = letSpecialArgs // { hostName = name; };
+            specialArgs = letSpecialArgs // {
+              hostName = name;
+            };
             modules = [
               home-manager.nixosModules.home-manager
-              { home-manager.extraSpecialArgs = letSpecialArgs // { hostName = name; }; }
+              {
+                home-manager.extraSpecialArgs = letSpecialArgs // {
+                  hostName = name;
+                };
+              }
               ./hosts/${name}
             ];
           };
-        })
-        nodes);
+        }) nodes
+      );
     };
 
   inputs = {

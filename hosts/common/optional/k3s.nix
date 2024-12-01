@@ -7,7 +7,7 @@
 }:
 {
   services.k3s = {
-    enable = true;
+    enable = false;
     role = "server";
     tokenFile = "/var/lib/rancher/k3s/server/token";
     extraFlags = toString (
@@ -22,7 +22,7 @@
     # first we check of this is master-server, if so, then ClusterInit
     clusterInit = (hostName == "k3s-01");
     # id we know that clustInit = true; then this must be the master server, else server nodes
-    serverAddr = if hostName != "k3s-01" then "https://192.168.1.145:6443" else "";
+    serverAddr = if hostName != "k3s-01" then "https://192.168.1.201:6443" else "";
   };
 
   services.openiscsi = {

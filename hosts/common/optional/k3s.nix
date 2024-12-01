@@ -16,8 +16,20 @@
         "--disable servicelb"
         "--disable traefik"
         "--disable local-storage"
+        "--flannel-iface=ens18"
       ]
-      ++ (if hostName == "k3s-01" then [ ] else [ ])
+      ++ (
+        if hostName == "k3s-01" then
+          [
+            "--node-ip=192.168.1.201"
+            "--tls-san=192.168.1.250" # voor de load balancer
+            "--tls-san=192.168.1.201" # k3s-01
+            "--tls-san=192.168.1.202" # k3s-02
+            "--tls-san=192.168.1.203" # k3s-03
+          ]
+        else
+          [ ]
+      )
     );
     # first we check of this is master-server, if so, then ClusterInit
     clusterInit = (hostName == "k3s-01");

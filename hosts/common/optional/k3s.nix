@@ -16,25 +16,13 @@
         "--disable servicelb"
         "--disable traefik"
         "--disable local-storage"
-        "--flannel-iface=ens18"
       ]
-      ++ (
-        if hostName == "k3s-01" then
-          [
-            "--bind-address 192.168.1.145"
-            "--node-ip=192.168.1.145"
-            "--advertise-address=192.168.1.145"
-          ]
-        else
-          [
-            "--server https://192.168.1.145"
-          ]
-      )
+      ++ (if hostName == "k3s-01" then [ ] else [ ])
     );
     # first we check of this is master-server, if so, then ClusterInit
     clusterInit = (hostName == "k3s-01");
     # id we know that clustInit = true; then this must be the master server, else server nodes
-    # serverAddr = if hostName != "k3s-01" then "https://192.168.1.145:6443" else "";
+    serverAddr = if hostName != "k3s-01" then "https://192.168.1.145:6443" else "";
   };
 
   services.openiscsi = {

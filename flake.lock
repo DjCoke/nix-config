@@ -301,10 +301,10 @@
     },
     "nix-secrets": {
       "locked": {
-        "lastModified": 1732894224,
-        "narHash": "sha256-K4s4ugQw5K5Bog9n5FycOJ5Tqvs9Lbn6D5hwmrANBdk=",
+        "lastModified": 1733053468,
+        "narHash": "sha256-LIweZPyjiVbdIKWk9H0s8+WjzRFb3KLxfbeOjwYvPYM=",
         "ref": "main",
-        "rev": "3c49450bfcb50bd4d12a978745e4cb401404f66d",
+        "rev": "5aa77c5f170b475a02c226f6632cf18741f507d4",
         "shallow": true,
         "type": "git",
         "url": "ssh://git@github.com/DjCoke/nix-secrets.git"

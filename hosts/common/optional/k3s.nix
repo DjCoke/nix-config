@@ -20,7 +20,11 @@
       ]
       ++ (
         if hostName == "k3s-01" then
-          [ "--bind-address 192.168.1.145" ]
+          [
+            "--bind-address 192.168.1.145"
+            "--node-ip=192.168.1.145"
+            "--advertise-address=192.168.1.145"
+          ]
         else
           [
             "--server https://192.168.1.145"

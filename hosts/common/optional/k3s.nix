@@ -18,7 +18,7 @@
           [ ]
         else
           [
-            "--server https://k3s-01:6443"
+            "--server https://192.168.1.145:6443"
           ]
       )
     );

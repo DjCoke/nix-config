@@ -44,4 +44,9 @@ in
       recursive = true;
     };
   };
+
+  # see also my comment at git.nix, we need this to be able to build some plugins in Neovim
+  home.sessionVariables = {
+    CARGO_NET_GIT_FETCH_WITH_CLI = "true";
+  };
 }

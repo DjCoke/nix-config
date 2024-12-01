@@ -1,8 +1,7 @@
-{
-  pkgs,
-  lib,
-  configVars,
-  ...
+{ pkgs
+, lib
+, configVars
+, ...
 }:
 let
   sshPort = configVars.networking.ports.tcp.ssh;
@@ -17,6 +16,7 @@ in
   services.openssh = {
     enable = true;
     ports = [ sshPort ];
+    allowSFTP = true; # Added. as I do use this a lot
 
     settings = {
       # Harden

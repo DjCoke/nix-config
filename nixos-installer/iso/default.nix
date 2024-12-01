@@ -1,9 +1,8 @@
-{
-  pkgs,
-  lib,
-  configLib,
-  configVars,
-  ...
+{ pkgs
+, lib
+, configLib
+, configVars
+, ...
 }:
 let
   sshPort = configVars.networking.ports.tcp.ssh;

@@ -18,6 +18,23 @@
         "type": "github"
       }
     },
+    "nix-secrets": {
+      "locked": {
+        "lastModified": 1732473928,
+        "narHash": "sha256-U2VpohZ6BtvLb0+A30+IRlKhhNiLmVkUG8qi+vNzKnw=",
+        "ref": "main",
+        "rev": "b727fabfbed6c71484d0a02c083c0c691b1db4a8",
+        "shallow": true,
+        "type": "git",
+        "url": "ssh://git@github.com/DjCoke/nix-secrets.git"
+      },
+      "original": {
+        "ref": "main",
+        "shallow": true,
+        "type": "git",
+        "url": "ssh://git@github.com/DjCoke/nix-secrets.git"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1715037484,
@@ -36,16 +53,16 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1725930920,
-        "narHash": "sha256-RVhD9hnlTT2nJzPHlAqrWqCkA7T6CYrP41IoVRkciZM=",
+        "lastModified": 1720535198,
+        "narHash": "sha256-zwVvxrdIzralnSbcpghA92tWu2DV2lwv89xZc8MTrbg=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "44a71ff39c182edaf25a7ace5c9454e7cba2c658",
+        "rev": "205fd4226592cc83fd4c0885a3e4c9c400efabb5",
         "type": "github"
       },
       "original": {
         "owner": "NixOS",
-        "ref": "nixos-24.05",
+        "ref": "nixos-23.11",
         "repo": "nixpkgs",
         "type": "github"
       }
@@ -53,6 +70,7 @@
     "root": {
       "inputs": {
         "disko": "disko",
+        "nix-secrets": "nix-secrets",
         "nixpkgs": "nixpkgs_2"
       }
     }

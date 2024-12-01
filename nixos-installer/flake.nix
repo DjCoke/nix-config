@@ -3,9 +3,14 @@
 
   inputs = {
     #nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
     # Declarative partitioning and formatting
     disko.url = "github:nix-community/disko";
+    nix-secrets = {
+      url = "git+ssh://git@github.com/DjCoke/nix-secrets.git?ref=main&shallow=1";
+      inputs = { };
+    };
+
   };
 
   outputs =
@@ -46,21 +51,22 @@
       nixosConfigurations = {
         # host = newConfig "name" disk" "withSwap" "swapSize"
         # Swap size is in GiB
-        grief = newConfig "grief" "/dev/vda" false "0";
-        guppy = newConfig "guppy" "/dev/vda" false "0";
-        gusto = newConfig "gusto" "/dev/sda" true "8";
+        # grief = newConfig "grief" "/dev/vda" false "0";
+        # guppy = newConfig "guppy" "/dev/vda" false "0";
+        # gusto = newConfig "gusto" "/dev/sda" true "8";
+        k3s-01 = newConfig "k3s-01" "/dev/sda" true "8";
 
-        ghost = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = minimalSpecialArgs;
-          modules = [
-            inputs.disko.nixosModules.disko
-            (configLib.relativeToRoot "hosts/common/disks/ghost.nix")
-            ./minimal-configuration.nix
-            { networking.hostName = "ghost"; }
-            (configLib.relativeToRoot "hosts/ghost/hardware-configuration.nix")
-          ];
-        };
+        # ghost = nixpkgs.lib.nixosSystem {
+        #   system = "x86_64-linux";
+        #   specialArgs = minimalSpecialArgs;
+        #   modules = [
+        #     inputs.disko.nixosModules.disko
+        #     (configLib.relativeToRoot "hosts/common/disks/ghost.nix")
+        #     ./minimal-configuration.nix
+        #     { networking.hostName = "ghost"; }
+        #     (configLib.relativeToRoot "hosts/ghost/hardware-configuration.nix")
+        #   ];
+        # };
 
         # Custom ISO
         #

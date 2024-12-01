@@ -1,13 +1,12 @@
 {
-  description = "EmergentMind's Nix-Config";
+  description = "DjCoke's Nix-Config, from EmergentMind's Nix-Config";
 
   outputs =
-    {
-      self,
-      nixpkgs,
-      home-manager,
-      stylix,
-      ...
+    { self
+    , nixpkgs
+    , home-manager
+    , stylix
+    , ...
     }@inputs:
     let
       inherit (self) outputs;
@@ -18,7 +17,7 @@
       inherit (nixpkgs) lib;
       configVars = import ./vars { inherit inputs lib; };
       configLib = import ./lib { inherit lib; };
-      specialArgs = {
+      letSpecialArgs = {
         inherit
           inputs
           outputs
@@ -27,11 +26,16 @@
           nixpkgs
           ;
       };
+      nodes = [
+        "k3s-01"
+        # "k3s-02"
+        # "k3s-03"
+      ];
     in
     {
       # Custom modules to enable special functionality for nixos or home-manager oriented configs.
       #nixosModules = { inherit (import ./modules/nixos); };
-      #homeManagerModules = { inherit (import ./modules/home-manager); };
+      # homeManagerModules = { inherit (import ./modules/home-manager); };
       nixosModules = import ./modules/nixos;
       homeManagerModules = import ./modules/home-manager;
 
@@ -75,50 +79,26 @@
       #
       # Building configurations available through `just rebuild` or `nixos-rebuild --flake .#hostname`
 
-      nixosConfigurations = {
-        # Main
-        ghost = lib.nixosSystem {
-          inherit specialArgs;
-          modules = [
-            home-manager.nixosModules.home-manager
-            { home-manager.extraSpecialArgs = specialArgs; }
-            ./hosts/ghost
-          ];
-        };
-        # Qemu VM dev lab
-        grief = lib.nixosSystem {
-          inherit specialArgs;
-          modules = [
-            home-manager.nixosModules.home-manager
-            { home-manager.extraSpecialArgs = specialArgs; }
-            ./hosts/grief
-          ];
-        };
-        # Qemu VM deployment test lab
-        guppy = lib.nixosSystem {
-          inherit specialArgs;
-          modules = [
-            home-manager.nixosModules.home-manager
-            { home-manager.extraSpecialArgs = specialArgs; }
-            ./hosts/guppy
-          ];
-        };
-        # Theatre - ASUS VivoPC VM40B-S081M
-        gusto = lib.nixosSystem {
-          inherit specialArgs;
-          modules = [
-            home-manager.nixosModules.home-manager
-            { home-manager.extraSpecialArgs = specialArgs; }
-            ./hosts/gusto
-          ];
-        };
-      };
+      nixosConfigurations = builtins.listToAttrs (map
+        (name: {
+          # getting the hostnames from nodes, and setting the hostname dynamically
+          name = name;
+          value = lib.nixosSystem {
+            specialArgs = letSpecialArgs // { hostName = name; };
+            modules = [
+              home-manager.nixosModules.home-manager
+              { home-manager.extraSpecialArgs = letSpecialArgs // { hostName = name; }; }
+              ./hosts/${name}
+            ];
+          };
+        })
+        nodes);
     };
 
   inputs = {
     #################### Official NixOS and HM Package Sources ####################
 
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11"; # I saw this change from unstable to 24.11, from upstream, because of the mess?
     # The next two are for pinning to stable vs unstable regardless of what the above is set to
     # See also 'stable-packages' and 'unstable-packages' overlays at 'overlays/default.nix"
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-24.05";
@@ -144,21 +124,13 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # vim4LMFQR!
-    nixvim = {
-      #url = "github:nix-community/nixvim/nixos-24.05";
-      #inputs.nixpkgs.follows = "nixpkgs";
-      url = "github:nix-community/nixvim";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
-    };
-
     pre-commit-hooks = {
       url = "github:cachix/git-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     # Theming
-    stylix.url = "github:danth/stylix/release-24.05";
+    stylix.url = "github:danth/stylix/release-24.05"; # checked if it was still necessary to have 24.05 (it is still the case on 24-11-2024)
     rose-pine-hyprcursor.url = "github:ndom91/rose-pine-hyprcursor";
 
     #################### Personal Repositories ####################
@@ -166,7 +138,7 @@
     # Private secrets repo.  See ./docs/secretsmgmt.md
     # Authenticate via ssh and use shallow clone
     nix-secrets = {
-      url = "git+ssh://git@gitlab.com/emergentmind/nix-secrets.git?ref=main&shallow=1";
+      url = "git+ssh://git@github.com/DjCoke/nix-secrets.git?ref=main&shallow=1";
       inputs = { };
     };
   };

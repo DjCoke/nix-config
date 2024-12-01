@@ -1,9 +1,8 @@
-{
-  config,
-  inputs,
-  pkgs,
-  lib,
-  ...
+{ config
+, inputs
+, pkgs
+, lib
+, ...
 }:
 let
   inherit (config.networking) hostName;
@@ -16,7 +15,7 @@ in
     enable = isClean;
     dates = "hourly";
     flags = [ "--refresh" ];
-    flake = "git://github.com/EmergentMind/nix-config?ref=release-${hostName}";
+    flake = "git://github.com/DjCoke/nix-config?ref=release-${hostName}";
   };
 
   # Only run if current config (self) is older than the new one.

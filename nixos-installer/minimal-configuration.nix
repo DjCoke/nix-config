@@ -1,9 +1,8 @@
-{
-  lib,
-  pkgs,
-  configLib,
-  configVars,
-  ...
+{ lib
+, pkgs
+, configLib
+, configVars
+, ...
 }:
 let
   sshPort = configVars.networking.ports.tcp.ssh;
@@ -36,14 +35,14 @@ in
     };
   };
 
-  # allow sudo over ssh with yubikey
-  security.pam = {
-    sshAgentAuth.enable = true;
-    services.sudo = {
-      u2fAuth = true;
-      sshAgentAuth = true;
-    };
-  };
+  # # allow sudo over ssh with yubikey
+  # security.pam = {
+  #   sshAgentAuth.enable = true;
+  #   services.sudo = {
+  #     u2fAuth = true;
+  #     sshAgentAuth = true;
+  #   };
+  # };
 
   environment.systemPackages = builtins.attrValues { inherit (pkgs) wget curl rsync; };
 

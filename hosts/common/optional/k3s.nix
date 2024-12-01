@@ -11,6 +11,7 @@
         "--disable servicelb"
         "--disable traefik"
         "--disable local-storage"
+        "--flannel-iface=ens18"
       ]
       ++ (
         if hostName == "k3s-01" then

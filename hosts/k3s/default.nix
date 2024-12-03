@@ -5,12 +5,13 @@
 #
 ###############################################################
 
-{ inputs
-, lib
-, configVars
-, configLib
-, hostName
-, ...
+{
+  inputs,
+  lib,
+  configVars,
+  configLib,
+  hostName,
+  ...
 }:
 {
   imports = lib.flatten [
@@ -42,6 +43,7 @@
       # "hosts/common/optional/msmtp.nix" # required for emailing clamav alerts TODO:
       "hosts/common/optional/services/openssh.nix"
       "hosts/common/optional/k3s.nix"
+      "hosts/common/optional/qemuguest.nix"
 
       # Desktop
       # "hosts/common/optional/services/greetd.nix" # display manager

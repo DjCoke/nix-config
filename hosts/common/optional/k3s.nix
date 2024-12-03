@@ -25,6 +25,7 @@
             "--disable traefik"
             "--disable local-storage"
             "--flannel-iface=ens18"
+            "--node-taint node-role.kubernetes.io/master=true:NoSchedule"
           ]
           ++ (
             if hostName == "k3s-01" then
@@ -52,6 +53,8 @@
         tokenFile = "/var/lib/rancher/k3s/server/token";
         extraFlags = toString [
           "--node-ip=192.168.1.2${builtins.substring 4 2 hostName}" # Automatisch IP bepalen
+          "--node-label \"worker=true\""
+          "--mode-label \"longhorn=true\""
         ];
       };
 

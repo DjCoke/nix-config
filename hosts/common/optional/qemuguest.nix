@@ -1,7 +1,7 @@
 { pkgs, ... }:
 {
   # Adding the QEMU Guest Agent
-  services.qemuGuestAgent.enable = true;
+  services.qemuGuest.enable = true;
 
   environment.systemPackages = [
     pkgs.qemuGuestAgent

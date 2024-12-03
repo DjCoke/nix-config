@@ -6,7 +6,7 @@
   ...
 }:
 let
-  yubikeyHosts = [ ]; # I do not use yubikeys
+  yubikeyHosts = [ "guppy" ]; # I do not use yubikeys, but I leave this to be able to build it
   # add my domain to each yubikey host
   yubikeyDomains = map (h: "${h}.${configVars.domain}") yubikeyHosts;
   yubikeyHostAll = yubikeyHosts ++ yubikeyDomains;
@@ -36,6 +36,12 @@ let
     "k3s-01"
     "k3s-02"
     "k3s-03"
+    "k3s-04"
+    "k3s-05"
+    "k3s-06"
+    "k3s-07"
+    "k3s-08"
+    "k3s-09"
   ];
   vanillaHostsConfig = lib.attrsets.mergeAttrsList (
     lib.lists.map (host: {
@@ -63,12 +69,12 @@ in
 
     matchBlocks = {
       # Not all of this systems I have access to can use yubikey.
-      # "yubikey-hosts" = lib.hm.dag.entryAfter [ "*" ] {
-      #  host = "${yubikeyHostsString}";
-      #  forwardAgent = true;
-      # identitiesOnly = true;
-      #  identityFile = lib.lists.forEach identityFiles (file: "${config.home.homeDirectory}/.ssh/${file}");
-      # };
+      "yubikey-hosts" = lib.hm.dag.entryAfter [ "*" ] {
+        host = "${yubikeyHostsString}";
+        forwardAgent = true;
+        identitiesOnly = true;
+        identityFile = lib.lists.forEach identityFiles (file: "${config.home.homeDirectory}/.ssh/${file}");
+      };
 
       "git" = {
         host = "gitlab.com github.com";
@@ -80,14 +86,14 @@ in
 
       #FIXME: Remove these hosts
 
-      # "gooey" = lib.hm.dag.entryAfter [ "yubikey-hosts" ] {
-      #   host = "gooey";
-      #   hostname = "gooey.${configVars.domain}";
-      #   user = "pi";
-      #   forwardAgent = true;
-      #   identitiesOnly = true;
-      #   identityFile = lib.lists.forEach identityFiles (file: "${config.home.homeDirectory}/.ssh/${file}");
-      # };
+      "beru" = lib.hm.dag.entryAfter [ "yubikey-hosts" ] {
+        host = "beru";
+        hostname = "192.168.1.20";
+        user = "erwin";
+        forwardAgent = true;
+        identitiesOnly = true;
+        identityFile = lib.lists.forEach identityFiles (file: "${config.home.homeDirectory}/.ssh/${file}");
+      };
       # "oops" = lib.hm.dag.entryAfter [ "yubikey-hosts" ] {
       #   host = "oops";
       #   hostname = "${configVars.networking.subnets.oops.ip}";

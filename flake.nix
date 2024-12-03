@@ -2,11 +2,12 @@
   description = "DjCoke's Nix-Config, from EmergentMind's Nix-Config";
 
   outputs =
-    { self
-    , nixpkgs
-    , home-manager
-    , stylix
-    , ...
+    {
+      self,
+      nixpkgs,
+      home-manager,
+      stylix,
+      ...
     }@inputs:
     let
       inherit (self) outputs;
@@ -27,9 +28,15 @@
           ;
       };
       nodes = [
-        "k3s-01"
-        "k3s-02"
-        "k3s-03"
+        "k3s-01" # master server
+        "k3s-02" # server
+        "k3s-03" # server
+        "k3s-04" # worker
+        "k3s-05" # worker
+        "k3s-06" # worker
+        "k3s-07" # Longhorn
+        "k3s-08" # Longhorn
+        "k3s-09" # Longhorn
       ];
     in
     {
@@ -80,31 +87,25 @@
       # Building configurations available through `just rebuild` or `nixos-rebuild --flake .#hostname`
 
       nixosConfigurations = builtins.listToAttrs (
-        map
-          (name: {
-            # getting the hostnames from nodes, and setting the hostname dynamically
-            name = name;
-            value = lib.nixosSystem {
-              specialArgs = letSpecialArgs // {
-                hostName = name;
-              };
-              modules = [
-                home-manager.nixosModules.home-manager
-                {
-                  home-manager.extraSpecialArgs = letSpecialArgs // {
-                    hostName = name;
-                  };
-                }
-                # Dynamically select the configuration file based on the hostname
-                (if builtins.match "k3s-.*" name != null then
-                  ./hosts/k3s
-                else
-                  ./hosts/${name}
-                )
-              ];
+        map (name: {
+          # getting the hostnames from nodes, and setting the hostname dynamically
+          name = name;
+          value = lib.nixosSystem {
+            specialArgs = letSpecialArgs // {
+              hostName = name;
             };
-          })
-          nodes
+            modules = [
+              home-manager.nixosModules.home-manager
+              {
+                home-manager.extraSpecialArgs = letSpecialArgs // {
+                  hostName = name;
+                };
+              }
+              # Dynamically select the configuration file based on the hostname
+              (if builtins.match "k3s-.*" name != null then ./hosts/k3s else ./hosts/${name})
+            ];
+          };
+        }) nodes
       );
     };
 

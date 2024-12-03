@@ -49,6 +49,7 @@ let
         host = host;
         hostname = "${host}.${configVars.domain}";
         port = configVars.networking.ports.tcp.ssh;
+        identityFile = lib.lists.forEach identityFiles (file: "${config.home.homeDirectory}/.ssh/${file}");
       };
     }) vanillaHosts
   );
@@ -94,6 +95,25 @@ in
         identitiesOnly = true;
         identityFile = lib.lists.forEach identityFiles (file: "${config.home.homeDirectory}/.ssh/${file}");
       };
+
+      "igris" = lib.hm.dag.entryAfter [ "yubikey-hosts" ] {
+        host = "igris";
+        hostname = "192.168.1.21";
+        user = "erwin";
+        forwardAgent = true;
+        identitiesOnly = true;
+        identityFile = lib.lists.forEach identityFiles (file: "${config.home.homeDirectory}/.ssh/${file}");
+      };
+
+      "bellial" = lib.hm.dag.entryAfter [ "yubikey-hosts" ] {
+        host = "bellial";
+        hostname = "192.168.1.22";
+        user = "erwin";
+        forwardAgent = true;
+        identitiesOnly = true;
+        identityFile = lib.lists.forEach identityFiles (file: "${config.home.homeDirectory}/.ssh/${file}");
+      };
+
       # "oops" = lib.hm.dag.entryAfter [ "yubikey-hosts" ] {
       #   host = "oops";
       #   hostname = "${configVars.networking.subnets.oops.ip}";

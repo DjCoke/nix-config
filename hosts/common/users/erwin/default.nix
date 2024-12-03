@@ -1,10 +1,11 @@
-{ pkgs
-, inputs
-, config
-, lib
-, configVars
-, configLib
-, ...
+{
+  pkgs,
+  inputs,
+  config,
+  lib,
+  configVars,
+  configLib,
+  ...
 }:
 let
   ifTheyExist = groups: builtins.filter (group: builtins.hasAttr group config.users.groups) groups;
@@ -28,14 +29,18 @@ let
     };
 
     # Import this user's personal/home configurations
+    # home-manager.users.${configVars.username} = import (
+    #  configLib.relativeToRoot "home/${configVars.username}/${config.networking.hostName}.nix"
+    # );
+    # Import this user's personal/home configurations
     home-manager.users.${configVars.username} = import (
-      configLib.relativeToRoot "home/${configVars.username}/${config.networking.hostName}.nix"
+      if builtins.match "k3s-[0-9][0-9]?" config.networking.hostName != null then
+        configLib.relativeToRoot "home/${configVars.username}/k3s.nix"
+      else
+        configLib.relativeToRoot "home/${configVars.username}/${config.networking.hostName}.nix"
     );
 
     home-manager.backupFileExtension = ".bak";
-
-
-
 
     home-manager.users.root = {
       home.stateVersion = "23.05"; # Vermijd foutmeldingen
@@ -53,8 +58,8 @@ let
 
   };
 
-  # fullUserConfig = { };
 in
+# fullUserConfig = { };
 {
   config =
     lib.recursiveUpdate fullUserConfig

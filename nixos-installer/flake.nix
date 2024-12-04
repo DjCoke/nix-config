@@ -43,7 +43,12 @@
             }
             ./minimal-configuration.nix
             { networking.hostName = name; }
-            (configLib.relativeToRoot "hosts/${name}/hardware-configuration.nix")
+            (
+              if builtins.match "k3s-[0-9][0-9]?" name != null then
+                configLib.relativeToRoot "hosts/k3s/hardware-configuration.nix"
+              else
+                configLib.relativeToRoot "hosts/${name}/hardware-configuration.nix"
+            )
           ];
         });
     in

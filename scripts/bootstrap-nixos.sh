@@ -173,8 +173,14 @@ function nixos_anywhere() {
 	fi
 	green "Generating hardware-config.nix for $target_hostname and adding it to the nix-config."
 	$ssh_root_cmd "nixos-generate-config --no-filesystems --root /mnt"
-	$scp_cmd root@"$target_destination":/mnt/etc/nixos/hardware-configuration.nix "${git_root}"/hosts/"$target_hostname"/hardware-configuration.nix
-
+	# Controleer of target_hostname het patroon k3s-XX volgt
+	if [[ $target_hostname =~ ^k3s-[0-9]{2}$ ]]; then
+		# Als target_hostname k3s-XX is, kopieer naar hosts/k3s/
+		$scp_cmd root@"$target_destination":/mnt/etc/nixos/hardware-configuration.nix "${git_root}/hosts/k3s/hardware-configuration.nix"
+	else
+		# Anders kopieer naar hosts/<target_hostname>/
+		$scp_cmd root@"$target_destination":/mnt/etc/nixos/hardware-configuration.nix "${git_root}/hosts/${target_hostname}/hardware-configuration.nix"
+	fi
 	# --extra-files here picks up the ssh host key we generated earlier and puts it onto the target machine
 	SHELL=/bin/sh nix run github:nix-community/nixos-anywhere -- --ssh-port "$ssh_port" --extra-files "$temp" --flake .#"$target_hostname" root@"$target_destination"
 

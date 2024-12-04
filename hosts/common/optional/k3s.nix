@@ -47,14 +47,14 @@
       }
     else
       {
-        enable = false;
-        role = "worker";
+        enable = true;
+        role = "agent";
         serverAddr = "https://192.168.1.250:6443"; # Verbind met Kube-VIP
         tokenFile = "/var/lib/rancher/k3s/server/token";
         extraFlags = toString [
           "--node-ip=192.168.1.2${builtins.substring 4 2 hostName}" # Automatisch IP bepalen
           "--node-label \"worker=true\""
-          "--mode-label \"longhorn=true\""
+          "--node-label \"longhorn=true\""
         ];
       };
 

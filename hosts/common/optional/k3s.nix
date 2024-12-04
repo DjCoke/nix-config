@@ -1,9 +1,8 @@
-{
-  pkgs,
-  lib,
-  config,
-  hostName,
-  ...
+{ pkgs
+, lib
+, config
+, hostName
+, ...
 }:
 {
   services.k3s =
@@ -53,8 +52,10 @@
         tokenFile = "/var/lib/rancher/k3s/server/token";
         extraFlags = toString [
           "--node-ip=192.168.1.2${builtins.substring 4 2 hostName}" # Automatisch IP bepalen
-          "--node-label \"worker=true\""
           "--node-label \"longhorn=true\""
+          (if builtins.elem hostName [ "k3s-04" "k3s-05" "k3s-06" ]
+          then "--node-label \"worker=true\""
+          else "")
         ];
       };
 

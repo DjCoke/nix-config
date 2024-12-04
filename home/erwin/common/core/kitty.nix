@@ -1,7 +1,7 @@
 {
   #TODO: change this to alacritty or wezterm
   programs.kitty = {
-    enable = false; #Disabling kitty
+    enable = false; # Disabling kitty
     shellIntegration.enableZshIntegration = true;
 
     #    font = {

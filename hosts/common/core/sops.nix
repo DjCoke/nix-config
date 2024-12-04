@@ -1,10 +1,11 @@
 # hosts level sops. see home/[user]/common/optional/sops.nix for home/user level
 
-{ pkgs
-, inputs
-, config
-, configVars
-, ...
+{
+  pkgs,
+  inputs,
+  config,
+  configVars,
+  ...
 }:
 let
   secretsDirectory = builtins.toString inputs.nix-secrets;
@@ -61,7 +62,6 @@ in
         mode = "0600";
         path = "/var/lib/rancher/k3s/server/token";
       };
-
 
     };
   };

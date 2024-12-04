@@ -1,8 +1,9 @@
-{ config
-, inputs
-, pkgs
-, lib
-, ...
+{
+  config,
+  inputs,
+  pkgs,
+  lib,
+  ...
 }:
 let
   inherit (config.networking) hostName;

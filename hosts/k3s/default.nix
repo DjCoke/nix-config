@@ -29,7 +29,7 @@
     {
       _module.args = {
         disk = "/dev/sda";
-        withSwap = true;
+        withSwap = false;
       };
     }
     (map configLib.relativeToRoot [

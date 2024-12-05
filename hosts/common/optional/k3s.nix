@@ -94,8 +94,6 @@
       ;
   };
 
-  services.nfs.client.enable = true;
-
   # debugging my failures to setup my cluster
   networking.firewall.enable = false;
 

@@ -78,7 +78,11 @@
   systemd.tmpfiles.rules = [
     "L+ /usr/local/bin - - - - /run/current-system/sw/bin/"
   ];
-  virtualisation.docker.logDriver = "json-file";
+  virtualisation.docker = {
+    enable = true;
+    logDriver = "json-file";
+  };
+  boot.kernelModules = [ "dm_crypt" ];
 
   environment.systemPackages = builtins.attrValues {
     inherit (pkgs)
@@ -90,17 +94,28 @@
       ;
   };
 
+  services.nfs.client.enable = true;
+
   # debugging my failures to setup my cluster
   networking.firewall.enable = false;
 
   # networking.firewall.allowedTCPPorts = [
-  #   6443 # k3s: required so that pods can reach the API server (running on port 6443 by default)
-  #   2379 # k3s, etcd clients: required if using a "High Availability Embedded etcd" configuration
-  #   2380 # k3s, etcd peers: required if using a "High Availability Embedded etcd" configuration
-  #   10250 # k3s, metrics
-  #   10255 # k3s, metrics
+  #   7946 # flannel
+  #   8285 # flannel
+  #   8472 # flannel
+  #
+  #   # Kubernetes
+  #   2379 # etcd-client
+  #   2380 # etcd-cluster
+  #   6443 # kube-apiserver
+  #
+  #   # Prometheus metrics
+  #   10250
+  #   10254
   # ];
   # networking.firewall.allowedUDPPorts = [
-  #   8472 # k3s, flannel: required if using multi-node for inter-node networking
+  #   7946 # flannel
+  #   8472 # flannel
   # ];
+
 }

@@ -82,7 +82,10 @@
     enable = true;
     logDriver = "json-file";
   };
-  boot.kernelModules = [ "dm_crypt" ];
+  boot.kernelModules = [
+    "dm_crypt"
+    "nfs"
+  ];
 
   environment.systemPackages = builtins.attrValues {
     inherit (pkgs)

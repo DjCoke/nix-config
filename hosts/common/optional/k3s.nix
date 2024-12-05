@@ -74,6 +74,12 @@
     name = "iqn.2016-04.com.open-iscsi:${hostName}";
   };
 
+  # Fixes for longhorn
+  systemd.tmpfiles.rules = [
+    "L+ /usr/local/bin - - - - /run/current-system/sw/bin/"
+  ];
+  virtualisation.docker.logDriver = "json-file";
+
   environment.systemPackages = builtins.attrValues {
     inherit (pkgs)
       k3s

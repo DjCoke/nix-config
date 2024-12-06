@@ -94,6 +94,7 @@
       nfs-utils
       kubernetes-helm
       helmfile
+      kustomize
       ;
   };
 

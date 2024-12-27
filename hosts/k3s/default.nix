@@ -20,7 +20,7 @@
 
     #################### Hardware Modules ####################
     #inputs.hardware.nixosModules.common-cpu-amd
-    inputs.hardware.nixosModules.common-gpu-intel-alder-lake
+    inputs.hardware.nixosModules.common-gpu-intel
     inputs.hardware.nixosModules.common-pc-ssd
 
     #################### Disk Layout ####################

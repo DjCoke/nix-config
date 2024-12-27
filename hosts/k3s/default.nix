@@ -5,13 +5,13 @@
 #
 ###############################################################
 
-{
-  inputs,
-  lib,
-  configVars,
-  configLib,
-  hostName,
-  ...
+{ inputs
+, lib
+, configVars
+, configLib
+, hostName
+, nixpkgs
+, ...
 }:
 {
   imports = lib.flatten [
@@ -20,7 +20,7 @@
 
     #################### Hardware Modules ####################
     #inputs.hardware.nixosModules.common-cpu-amd
-    #inputs.hardware.nixosModules.common-gpu-amd
+    inputs.hardware.nixosModules.common-gpu-intel-alder-lake
     inputs.hardware.nixosModules.common-pc-ssd
 
     #################### Disk Layout ####################

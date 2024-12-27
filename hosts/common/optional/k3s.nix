@@ -1,9 +1,8 @@
-{
-  pkgs,
-  lib,
-  config,
-  hostName,
-  ...
+{ pkgs
+, lib
+, config
+, hostName
+, ...
 }:
 {
   services.k3s =
@@ -85,6 +84,7 @@
   boot.kernelModules = [
     "dm_crypt"
     "nfs"
+    "i915"
   ];
 
   environment.systemPackages = builtins.attrValues {
@@ -95,6 +95,9 @@
       kubernetes-helm
       helmfile
       kustomize
+      intel-vaapi-driver
+      intel-gpu-tools
+      intel-media-driver
       ;
   };
 

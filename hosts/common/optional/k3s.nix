@@ -62,6 +62,8 @@
               ]
             then
               "--node-label \"worker=true\""
+                "--kubelet-arg=allowed-unsafe-sysctls=net.ipv4.conf.all.src_valid_mark"
+                "--kubelet-arg=allowed-unsafe-sysctls=net.ipv6.conf.all.disable_ipv6"
             else
               ""
           )

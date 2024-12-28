@@ -94,6 +94,11 @@
       ;
   };
 
+  boot.kernel.sysctl = lib.mkIf (builtins.elem hostName [ "k3s-04" "k3s-05" "k3s-06" ]) {
+    "net.ipv4.conf.all.src_valid_mark" = "1";
+    "net.ipv6.conf.all.disable_ipv6" = "1";
+  };
+
   # debugging my failures to setup my cluster
   networking.firewall.enable = false;
 

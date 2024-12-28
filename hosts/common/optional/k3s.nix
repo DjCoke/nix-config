@@ -50,24 +50,15 @@
         role = "agent";
         serverAddr = "https://192.168.1.250:6443"; # Verbind met Kube-VIP
         tokenFile = "/var/lib/rancher/k3s/server/token";
-        extraFlags = toString [
+        extraFlags = [
           "--node-ip=192.168.1.2${builtins.substring 4 2 hostName}" # Automatisch IP bepalen
           "--node-label \"longhorn=true\""
-          (
-            if
-              builtins.elem hostName [
-                "k3s-04"
-                "k3s-05"
-                "k3s-06"
-              ]
-            then
-              "--node-label \"worker=true\""
-                "--kubelet-arg=allowed-unsafe-sysctls=net.ipv4.conf.all.src_valid_mark"
-                "--kubelet-arg=allowed-unsafe-sysctls=net.ipv6.conf.all.disable_ipv6"
-            else
-              ""
-          )
-        ];
+        ] ++ (if builtins.elem hostName [ "k3s-04" "k3s-05" "k3s-06" ]
+        then [
+          "--node-label \"worker=true\""
+          "--kubelet-arg=allowed-unsafe-sysctls=net.ipv4.conf.all.src_valid_mark"
+          "--kubelet-arg=allowed-unsafe-sysctls=net.ipv6.conf.all.disable_ipv6"
+        ] else [ ]);
       };
 
   services.openiscsi = {
